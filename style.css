@@ -1,5 +1,7 @@
 body {
   font-family: Verdana, sans-serif;
+  color: aliceblue;
+  background-color: rgb(8, 8, 8);
 }
 #main-page {
   display: flex;
@@ -8,8 +10,8 @@ body {
   flex-basis: auto;
 }
 .side-tabs {
-  background-color: lightskyblue;
-  border: 5px solid lightskyblue;
+  background-color: rgb(50, 50, 50);
+  border: 5px solid rgb(50, 50, 50);
   box-shadow: 5px 5px 20px -2px black;
   border-radius: 7%;
   width: 33%;
@@ -31,8 +33,10 @@ body {
 }
 #image-container {
   display: flex;
-  justify-content: space-around;
-  border: 1px solid rebeccapurple;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 1px solid rgb(50, 50, 50);
+  border-radius: 15px;
   height: 180px;
   width: 500px;
   align-items: center;
@@ -48,6 +52,12 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+#previous-record-image {
+  height: 75px;
+  width: 75px;
+  border: 5px solid gold;
+  border-radius: 50px;
 }
 
 /* CSS pretaining to the example section */
