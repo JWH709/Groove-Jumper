@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../Groove Jumper/style.css" />
+  </head>
+  <body>
+    <div id="main-page">
+      <div id="left-tab" class="side-tabs">
+        <h2>How To Play</h2>
+        <p>
+          Groove jumper is a musical triva game based on making connections from
+          one album to another. Connections can be genres, record labels,
+          production staff, and collaborating artist. Once a connection has been
+          used, the player will be unable to return to the artist's other
+          albums, so make sure you know your way out of where you're going!
+        </p>
+        <div id="example">
+          <img
+            src="./images/Songs for the Deaf.png"
+            alt="The album cover for Songs for the Deaf by Queens of the Stone Age"
+            class="record-image"
+          />
+          <div class="line"></div>
+          <p id="link-example">Dave Ghrol</p>
+          <div class="line"></div>
+          <img
+            src="./images/Nevermind.jpg"
+            alt="The album cover for Nevermind by Nirvana"
+            class="record-image"
+          />
+        </div>
+      </div>
+      <div id="center-tab">
+        <div id="score-display-box">
+          <h2>Streak:</h2>
+          <h2 id="score-display">0</h2>
+        </div>
+        <div id="image-container">
+          <img
+            src="./images/Nevermind.jpg"
+            alt="change this/Temporary"
+            id="previous-record"
+            class="record-image"
+          />
+          <img
+            src="./images/Songs for the Deaf.png"
+            alt="change this/Temporary"
+            id="current-record"
+            class="record-image"
+          />
+          <div id="blank-div"></div>
+        </div>
+        <div>
+          <h2 id="last-connection"></h2>
+        </div>
+        <div id="search-bar">
+          <div id="search-input">
+            <input
+              type="text"
+              id="input-box"
+              placeholder="Find a Record"
+              autocomplete="off"
+            />
+          </div>
+          <div id="result-box">
+            <ul>
+              <li>Temporary</li>
+              <li>placeholder</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="right-tab" class="side-tabs">
+        <h2>Game Over!</h2>
+        <div id="streak-box">
+          <h3>Streak:</h3>
+          <h3 id="streak-display">0</h3>
+        </div>
+        <div id="history-display">
+          <p>I'm thinking a lot of JS will be required for this tab but w/e</p>
+        </div>
+      </div>
+    </div>
+    <script src="../Groove Jumper/script.js"></script>
+  </body>
+</html>
