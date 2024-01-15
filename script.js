@@ -5,6 +5,7 @@ fetch(getRandomStartPointer())
   .then((jsonObj) => {
     console.log(jsonObj);
     getFilteredAlbum(jsonObj);
+    console.log(albumsGlobal);
   })
   .catch((error) => {
     console.log(error);
@@ -42,11 +43,11 @@ function Arrays(name, id) {
 //Create functions that filter the information need for the constructors:
 
 function indexerFilter(currentItem) {
+  let filteredResults = new Array();
   for (let i = 0; i < currentItem.length; i++) {
-    let filteredResults = new Array();
     filteredResults.push(new Arrays(currentItem[i].name, currentItem[i].id));
-    return filteredResults;
   }
+  return filteredResults;
 }
 function getAlbumCount() {
   if (albumsGlobal == undefined) {
