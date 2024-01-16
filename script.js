@@ -143,19 +143,22 @@ searchBarInput.addEventListener("submit", function () {
 
 //Build a constructor for comparing the data of a search result
 
-function YearComparisonObjects(year, uri) {
+function YearComparisonObjects(year, resource_url) {
   this.year = year;
-  this.uri = uri;
+  this.resource_url = resource_url;
 }
 
-// Write a function that gets the year value for all of the objects, compares them all, finds the youngest, and fetches its URI
+// Write a function that gets the year value for all of the objects, compares them all, finds the youngest, and fetches its resource url
 
 function findOldestRelease(data) {
   const numberOfResults = data.results.length;
   let filteredResults = new Array();
   for (i = 0; i < numberOfResults; i++) {
     filteredResults.push(
-      new YearComparisonObjects(data.results[i].year, data.results[i].uri)
+      new YearComparisonObjects(
+        data.results[i].year,
+        data.results[i].resource_url
+      )
     );
   }
   let lowestYearOfRelease = undefined;
@@ -171,7 +174,39 @@ function findOldestRelease(data) {
     default:
       lowestYearOfRelease = 2;
   }
-  console.log(
-    "https://api.discogs.com" + filteredResults[lowestYearOfRelease].uri //Don't need auth here
-  );
+  fetch(filteredResults[lowestYearOfRelease].resource_url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((searchResults) => {
+      console.log(searchResults);
+      moveToTempInfo(searchResults);
+    });
 }
+
+//Write code to compare a searched album to the starting album
+
+//Create an object that will take in temporary information:
+
+let temporaryAlbumInfo = {
+  album: undefined,
+  artists: undefined,
+  extraartists: undefined,
+  labels: undefined,
+  styles: undefined,
+  year: undefined,
+};
+
+//create a function called once an album is chosen to update the temp values in temporaryAlbumInfo:
+
+function moveToTempInfo(info) {
+  temporaryAlbumInfo.album = info.title;
+  temporaryAlbumInfo.artists = info.artists;
+  temporaryAlbumInfo.extraartists = info.extraartists;
+  temporaryAlbumInfo.labels = info.labels;
+  temporaryAlbumInfo.styles = info.styles;
+  temporaryAlbumInfo.year = info.year;
+  console.log(temporaryAlbumInfo); // this is where I should add a result box underneath the search
+}
+
+//Create a function to compare the data of temporary album info
