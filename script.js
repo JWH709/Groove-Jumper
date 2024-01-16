@@ -27,7 +27,11 @@ function getRandomStartPointer() {
 }
 
 //create objects to store & reference information globally:
+
 let albumsGlobal = new Array();
+let infoGlobal = {
+  connectionsMade: 0,
+};
 
 //Create consturctors:
 
@@ -71,6 +75,7 @@ function getAlbumCount() {
     return albumsGlobal.length++;
   }
 }
+
 //Functions that will then use the constructors to build an object:
 
 function getFilteredAlbum(parsedJSON) {
@@ -81,8 +86,92 @@ function getFilteredAlbum(parsedJSON) {
   let labels = indexerFilter(parsedJSON.labels);
   let styles = parsedJSON.styles;
   let year = parsedJSON.year;
-  albumsGlobal.pop();
-  albumsGlobal.push(
-    new Album(albumPosition, album, artists, extraartists, labels, styles, year)
+  if (albumsGlobal[0] == undefined) {
+    albumsGlobal.pop();
+    albumsGlobal.push(
+      new Album(
+        albumPosition,
+        album,
+        artists,
+        extraartists,
+        labels,
+        styles,
+        year,
+        infoGlobal.connectionsMade
+      )
+    );
+  } else {
+    infoGlobal.connectionsMade = infoGlobal.connectionsMade + 1;
+    albumsGlobal.push(
+      new Album(
+        albumPosition,
+        album,
+        artists,
+        extraartists,
+        labels,
+        styles,
+        year,
+        infoGlobal.connectionsMade
+      )
+    );
+  }
+}
+
+//IMPORTANT: DO NOT PUSH TO GITHUB WITH AUTH TOKEN IN YOUR CODE. CHECK WITH SOMEONE BEFORE DOING THIS
+//Auth token + dummy search uri can be found in practice. Don't forget it, but don't leave it in when you push
+
+//Search functions for Discogs database:
+
+//Add functionality to the search bar
+
+const searchBarInput = document.getElementById("search-input-box");
+
+searchBarInput.addEventListener("submit", function () {
+  fetch(
+    "https://api.discogs.com/database/search?release_title=" +
+      searchBarInput.innerHTML +
+      authToken
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((results) => {
+      findOldestRelease(results);
+      console.log(results);
+    }); //remember to add catch stuff
+});
+
+//Build a constructor for comparing the data of a search result
+
+function YearComparisonObjects(year, uri) {
+  this.year = year;
+  this.uri = uri;
+}
+
+// Write a function that gets the year value for all of the objects, compares them all, finds the youngest, and fetches its URI
+
+function findOldestRelease(data) {
+  const numberOfResults = data.results.length;
+  let filteredResults = new Array();
+  for (i = 0; i < numberOfResults; i++) {
+    filteredResults.push(
+      new YearComparisonObjects(data.results[i].year, data.results[i].uri)
+    );
+  }
+  let lowestYearOfRelease = undefined;
+  switch (true) {
+    case filteredResults[0].year < filteredResults[1].year &&
+      filteredResults[0].year < filteredResults[2].year:
+      lowestYearOfRelease = 0;
+      break;
+    case filteredResults[1].year < filteredResults[0].year &&
+      filteredResults[1].year < filteredResults[2].year:
+      lowestYearOfRelease = 1;
+      break;
+    default:
+      lowestYearOfRelease = 2;
+  }
+  console.log(
+    "https://api.discogs.com" + filteredResults[lowestYearOfRelease].uri //Don't need auth here
   );
 }
