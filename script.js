@@ -4,8 +4,7 @@ fetch(getRandomStartPointer())
   })
   .then((jsonObj) => {
     console.log(jsonObj);
-    getFilteredAlbum(jsonObj);
-    console.log(albumsGlobal);
+    getMainRelease(jsonObj);
   })
   .catch((error) => {
     console.log(error);
@@ -18,12 +17,28 @@ fetch(getRandomStartPointer())
 function getRandomStartPointer() {
   let pointer = Math.round(Math.random() * (1 - 0) + 0);
   if (pointer == 1) {
-    let album = "https://api.discogs.com/releases/329797"; //SWANS
+    let album = "https://api.discogs.com/masters/8895"; //SWANS
     return album;
   } else {
-    let album = "https://api.discogs.com/releases/378017"; //QOTSA
+    let album = "https://api.discogs.com/masters/3239"; //QOTSA
     return album;
   }
+}
+
+function getMainRelease(results) {
+  let target = results.main_release_url;
+  fetch(target)
+    .then((response) => {
+      return response.json();
+    })
+    .then((results) => {
+      console.log(results);
+      getFilteredAlbum(results);
+      console.log(albumsGlobal);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 //create objects to store & reference information globally:
@@ -55,7 +70,7 @@ function Album(
     (this.connectionNumber = connectionNumber);
 }
 
-function Arrays(name, id) {
+function FilteredArrays(name, id) {
   (this.name = name), (this.id = id);
 }
 
@@ -64,7 +79,9 @@ function Arrays(name, id) {
 function indexerFilter(currentItem) {
   let filteredResults = new Array();
   for (let i = 0; i < currentItem.length; i++) {
-    filteredResults.push(new Arrays(currentItem[i].name, currentItem[i].id));
+    filteredResults.push(
+      new FilteredArrays(currentItem[i].name, currentItem[i].id)
+    );
   }
   return filteredResults;
 }
@@ -76,6 +93,52 @@ function getAlbumCount() {
   }
 }
 
+//tracklistartists is getting its own section because A) It's very complicated, B) it's a lot of code:
+
+//The main functionion:
+
+function getTracklistArtists(results) {
+  let trackList = results.tracklist;
+  let unfilteredResults = new Array();
+  for (let i = 0; i < trackList.length; i++) {
+    if (trackList[i].extraartists == undefined) {
+      unfilteredResults.push("Miss");
+    } else {
+      for (j = 0; j < trackList[i].extraartists.length; j++) {
+        unfilteredResults.push(
+          new FilteredArrays(
+            trackList[i].extraartists[j].name,
+            trackList[i].extraartists[j].id
+          )
+        );
+      }
+    }
+  }
+  let somewhatFilteredResults = unfilteredResults.filter(
+    filterTracklistArtists
+  );
+  return somewhatFilteredResults;
+}
+
+//Removes entries labeled as "Miss"/tracklists that had no additional artists on them:
+
+function filterTracklistArtists(unfilteredResults) {
+  return unfilteredResults !== "Miss";
+}
+
+//Merge tracklistartists with extraartists:
+
+function mergeToContributingArtists(extra, tracklist) {
+  let contributingArtists = extra.concat(tracklist);
+  return contributingArtists;
+}
+
+//After the "Miss" entries are removed, the duplicate aritsts occurances are removed:
+
+function killDuplicateTracklist(somewhatFilteredResults) {
+  for (i = 0; i < somewhatFilteredResults.length; i++) {}
+}
+
 //Functions that will then use the constructors to build an object:
 
 function getFilteredAlbum(parsedJSON) {
@@ -83,6 +146,11 @@ function getFilteredAlbum(parsedJSON) {
   let album = parsedJSON.title;
   let artists = indexerFilter(parsedJSON.artists);
   let extraartists = indexerFilter(parsedJSON.extraartists);
+  let tracklistArtists = getTracklistArtists(parsedJSON);
+  let contributingArtists = mergeToContributingArtists(
+    extraartists,
+    tracklistArtists
+  );
   let labels = indexerFilter(parsedJSON.labels);
   let styles = parsedJSON.styles;
   let year = parsedJSON.year;
@@ -93,7 +161,7 @@ function getFilteredAlbum(parsedJSON) {
         albumPosition,
         album,
         artists,
-        extraartists,
+        contributingArtists,
         labels,
         styles,
         year,
@@ -107,7 +175,7 @@ function getFilteredAlbum(parsedJSON) {
         albumPosition,
         album,
         artists,
-        extraartists,
+        contributingArtists,
         labels,
         styles,
         year,
