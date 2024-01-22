@@ -1,5 +1,5 @@
 //TOKEN:
-let personalAccessToken = "";
+let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
 fetch(getRandomStartPointer())
   .then((response) => {
@@ -202,11 +202,13 @@ console.log(searchBarArtistInput.value);
 
 searchBarAlbumInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
+    resetSearchResults();
     searchAlbumAndArtist();
   }
 });
 searchBarArtistInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
+    resetSearchResults();
     searchAlbumAndArtist();
   }
 });
@@ -218,7 +220,7 @@ function searchAlbumAndArtist() {
   let artistValueCheck = searchBarArtistInput.value;
   if (albumValueCheck == "") {
   } else {
-    albumValueCheck = "title=" + searchBarAlbumInput.value + "&";
+    albumValueCheck = "release_title=" + searchBarAlbumInput.value + "&";
   }
   if (artistValueCheck == "") {
   } else {
@@ -228,7 +230,7 @@ function searchAlbumAndArtist() {
     "https://api.discogs.com/database/search?" +
       albumValueCheck +
       artistValueCheck +
-      "type=release&format=album&per_page=3&page=1&token=" +
+      "type=release&per_page=3&page=1&token=" +
       personalAccessToken
   )
     .then((response) => {
@@ -236,11 +238,15 @@ function searchAlbumAndArtist() {
     })
     .then((results) => {
       console.log(results);
-      displaySearchResults(results); //Time to fix this!
+      displaySearchResults(results);
+      albumValueCheck.value = "";
+      artistValueCheck.value = "";
     });
 }
 
 //Need to put results on the page:
+
+//BIG PROBLEM: re-searching adds an additional eventListener.
 
 function displaySearchResults(response) {
   for (i = 0; i < response.results.length; i++) {
@@ -249,30 +255,44 @@ function displaySearchResults(response) {
     targetResultElement.style.display = "block";
     let key = i;
     targetResultElement.addEventListener("click", function () {
-      let test = key;
-      console.log("response.results[" + test + "].resource_url");
-      fetch(response.results[key].resource_url)
+      getResourceUrl(response, key);
+    });
+  }
+}
+
+//function for getting the resource url:
+
+function getResourceUrl(response, key) {
+  fetch(response.results[key].resource_url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((results) => {
+      fetch(results.resource_url)
         .then((response) => {
           return response.json();
         })
         .then((results) => {
-          fetch(results.resource_url)
-            .then((response) => {
-              return response.json();
-            })
-            .then((results) => {
-              console.log(results);
-              resetSearchResults();
-            });
+          console.log(results);
+          resetSearchResults();
+        })
+        .catch((error) => {
+          console.log("Search Step 2: " + error);
         });
+    })
+    .catch((error) => {
+      console.log("Search Step 1: " + error);
     });
-  }
 }
 
 //function for reseting the search results
 
 function resetSearchResults() {
   for (i = 0; i < 3; i++) {
-    document.getElementById("search-result" + i).style.display = "none";
+    let targetElement = document.getElementById("search-result" + i);
+    targetElement.style.display = "none";
+    targetElement.removeEventListener("click", function () {
+      getResourceUrl();
+    });
   }
-}
+} //I cannot get remove event listener working rn, I should ask for help with this, and move forward for now
