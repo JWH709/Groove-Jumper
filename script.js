@@ -1,3 +1,6 @@
+//TOKEN:
+let personalAccessToken = "";
+
 fetch(getRandomStartPointer())
   .then((response) => {
     return response.json();
@@ -187,94 +190,89 @@ function getFilteredAlbum(parsedJSON) {
 
 //IMPORTANT: DO NOT PUSH TO GITHUB WITH AUTH TOKEN IN YOUR CODE. CHECK WITH SOMEONE BEFORE DOING THIS
 //Auth token + dummy search uri can be found in practice. Don't forget it, but don't leave it in when you push
+//Leave the token at the top, and delete it when you push
 
 //Search functions for Discogs database:
 
 //Add functionality to the search bar
 
-const searchBarInput = document.getElementById("search-input-box");
+const searchBarAlbumInput = document.getElementById("search-input-album");
+const searchBarArtistInput = document.getElementById("search-input-artist");
+console.log(searchBarArtistInput.value);
 
-searchBarInput.addEventListener("submit", function () {
+searchBarAlbumInput.addEventListener("keydown", function (e) {
+  if (e.code === "Enter") {
+    searchAlbumAndArtist();
+  }
+});
+searchBarArtistInput.addEventListener("keydown", function (e) {
+  if (e.code === "Enter") {
+    searchAlbumAndArtist();
+  }
+});
+
+//function for searching:
+
+function searchAlbumAndArtist() {
+  let albumValueCheck = searchBarAlbumInput.value;
+  let artistValueCheck = searchBarArtistInput.value;
+  if (albumValueCheck == "") {
+  } else {
+    albumValueCheck = "title=" + searchBarAlbumInput.value + "&";
+  }
+  if (artistValueCheck == "") {
+  } else {
+    artistValueCheck = "artist=" + searchBarArtistInput.value + "&";
+  }
   fetch(
-    "https://api.discogs.com/database/search?release_title=" +
-      searchBarInput.innerHTML +
-      authToken
+    "https://api.discogs.com/database/search?" +
+      albumValueCheck +
+      artistValueCheck +
+      "type=release&format=album&per_page=3&page=1&token=" +
+      personalAccessToken
   )
     .then((response) => {
       return response.json();
     })
     .then((results) => {
-      findOldestRelease(results);
       console.log(results);
-    }); //remember to add catch stuff
-});
-
-//Build a constructor for comparing the data of a search result
-
-function YearComparisonObjects(year, resource_url) {
-  this.year = year;
-  this.resource_url = resource_url;
-}
-
-// Write a function that gets the year value for all of the objects, compares them all, finds the youngest, and fetches its resource url
-
-function findOldestRelease(data) {
-  const numberOfResults = data.results.length;
-  let filteredResults = new Array();
-  for (i = 0; i < numberOfResults; i++) {
-    filteredResults.push(
-      new YearComparisonObjects(
-        data.results[i].year,
-        data.results[i].resource_url
-      )
-    );
-  }
-  let lowestYearOfRelease = undefined;
-  switch (true) {
-    case filteredResults[0].year < filteredResults[1].year &&
-      filteredResults[0].year < filteredResults[2].year:
-      lowestYearOfRelease = 0;
-      break;
-    case filteredResults[1].year < filteredResults[0].year &&
-      filteredResults[1].year < filteredResults[2].year:
-      lowestYearOfRelease = 1;
-      break;
-    default:
-      lowestYearOfRelease = 2;
-  }
-  fetch(filteredResults[lowestYearOfRelease].resource_url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((searchResults) => {
-      console.log(searchResults);
-      moveToTempInfo(searchResults);
+      displaySearchResults(results); //Time to fix this!
     });
 }
 
-//Write code to compare a searched album to the starting album
+//Need to put results on the page:
 
-//Create an object that will take in temporary information:
-
-let temporaryAlbumInfo = {
-  album: undefined,
-  artists: undefined,
-  extraartists: undefined,
-  labels: undefined,
-  styles: undefined,
-  year: undefined,
-};
-
-//create a function called once an album is chosen to update the temp values in temporaryAlbumInfo:
-
-function moveToTempInfo(info) {
-  temporaryAlbumInfo.album = info.title;
-  temporaryAlbumInfo.artists = info.artists;
-  temporaryAlbumInfo.extraartists = info.extraartists;
-  temporaryAlbumInfo.labels = info.labels;
-  temporaryAlbumInfo.styles = info.styles;
-  temporaryAlbumInfo.year = info.year;
-  console.log(temporaryAlbumInfo); // this is where I should add a result box underneath the search
+function displaySearchResults(response) {
+  for (i = 0; i < response.results.length; i++) {
+    let targetResultElement = document.getElementById("search-result" + i);
+    targetResultElement.innerHTML = response.results[i].title;
+    targetResultElement.style.display = "block";
+    let key = i;
+    targetResultElement.addEventListener("click", function () {
+      let test = key;
+      console.log("response.results[" + test + "].resource_url");
+      fetch(response.results[key].resource_url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((results) => {
+          fetch(results.resource_url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((results) => {
+              console.log(results);
+              resetSearchResults();
+            });
+        });
+    });
+  }
 }
 
-//Create a function to compare the data of temporary album info
+//function for reseting the search results
+
+function resetSearchResults() {
+  for (i = 0; i < 3; i++) {
+    document.getElementById("search-result" + i).style.display = "none";
+  }
+}

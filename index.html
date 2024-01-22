@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="../Groove Jumper/style.css" />
+    <title>PRACTICE</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="main-page">
@@ -19,7 +19,7 @@
         </p>
         <div id="example">
           <img
-            src="./images/vinyl.png"
+            src="../Groove Jumper/images/vinyl.png"
             alt="The album cover for Songs for the Deaf by Queens of the Stone Age"
             class="record-image"
           />
@@ -27,7 +27,7 @@
           <p id="link-example">Dave Ghrol</p>
           <div class="line"></div>
           <img
-            src="./images/vinyl.png"
+            src="../Groove Jumper/images/vinyl.png"
             alt="The album cover for Nevermind by Nirvana"
             class="record-image"
           />
@@ -40,13 +40,13 @@
         </div>
         <div id="image-container">
           <img
-            src="./images/vinyl.png"
+            src="../Groove Jumper/images/vinyl.png"
             alt="change this/Temporary"
             id="previous-record-image"
             class="record-image"
           />
           <img
-            src="./images/vinyl.png"
+            src="../Groove Jumper/images/vinyl.png"
             alt="change this/Temporary"
             id="current-record"
             class="record-image"
@@ -63,15 +63,22 @@
           <div id="search-bar-wrapper">
             <input
               type="text"
-              id="search-input-box"
-              placeholder="Find a Record"
+              id="search-input-album"
+              placeholder="Album"
+              autocomplete="off"
+            />
+            <input
+              type="text"
+              id="search-input-artist"
+              placeholder="Artist"
               autocomplete="off"
             />
           </div>
           <div id="search-result-box">
             <ul>
-              <li>Temporary</li>
-              <li>placeholder</li>
+              <li id="search-result0" class="search-results"></li>
+              <li id="search-result1" class="search-results"></li>
+              <li id="search-result2" class="search-results"></li>
             </ul>
           </div>
         </div>
@@ -87,6 +94,6 @@
         </div>
       </div>
     </div>
-    <script src="../Groove Jumper/script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
