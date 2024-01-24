@@ -49,6 +49,7 @@ function getMainRelease(results) {
 let albumsGlobal = new Array();
 let infoGlobal = {
   connectionsMade: 0,
+  matches: null,
 };
 
 //Create consturctors:
@@ -172,18 +173,15 @@ function getFilteredAlbum(parsedJSON) {
       )
     );
   } else {
-    infoGlobal.connectionsMade = infoGlobal.connectionsMade + 1;
-    albumsGlobal.push(
-      new Album(
-        albumPosition,
-        album,
-        artists,
-        contributingArtists,
-        labels,
-        styles,
-        year,
-        infoGlobal.connectionsMade
-      )
+    return new Album(
+      albumPosition,
+      album,
+      artists,
+      contributingArtists,
+      labels,
+      styles,
+      year,
+      infoGlobal.connectionsMade
     );
   }
 }
@@ -273,7 +271,10 @@ function getResourceUrl(response, key) {
           return response.json();
         })
         .then((results) => {
+          let tempAlbum = getFilteredAlbum(results);
           console.log(results);
+          console.log(tempAlbum);
+          checkForMatches(tempAlbum);
           resetSearchResults();
         })
         .catch((error) => {
@@ -296,3 +297,104 @@ function resetSearchResults() {
     });
   }
 } //I cannot get remove event listener working rn, I should ask for help with this, and move forward for now
+
+//COMPARISON CODE
+
+function checkForMatches(selectedSearchedAlbum) {
+  let albumKey = infoGlobal.connectionsMade;
+  let aritsts = compareArExLa(
+    albumsGlobal[albumKey].aritsts,
+    selectedSearchedAlbum.artists
+  );
+  let extraartists = compareArExLa(
+    albumsGlobal[albumKey].extraartists,
+    selectedSearchedAlbum.extraartists
+  );
+  let labels = compareArExLa(
+    albumsGlobal[albumKey].labels,
+    selectedSearchedAlbum.labels
+  );
+  let styles = compareStyles(
+    albumsGlobal[albumKey].styles,
+    selectedSearchedAlbum.styles
+  );
+  let year = compareYears(
+    albumsGlobal[albumKey].year,
+    selectedSearchedAlbum.year
+  );
+  console.log(aritsts);
+  console.log(extraartists);
+  console.log(labels);
+  console.log(styles);
+  console.log(year);
+}
+
+//make a constructor for match data:
+
+function MatchedData(artists, extraartists, labels, styles, year) {
+  (this.artists = artists),
+    (this.extraartists = extraartists),
+    (this.labels = labels),
+    (this.styles = styles),
+    (this.year = year);
+}
+
+//The following code is used for comparing the temp album with the current album
+
+function compareArExLa(currentAlbum, searchedAlbum) {
+  let matches = [];
+  currentAlbum.forEach((dataItem) => {
+    let nestedMatches = compareArrays(dataItem, searchedAlbum);
+    matches.push(nestedMatches);
+  });
+  console.log(matches);
+}
+
+//make a function for the compareArExLa .forEach method
+
+function compareArrays(currentAlbumData, searchedAlbumData) {
+  let matches = [];
+  for (i = 0; i < searchedAlbumData.length; i++) {
+    if (currentAlbumData.id == searchedAlbumData[i].id) {
+      let match = searchedAlbumData[i];
+      matches.push(match);
+    } else {
+    }
+  }
+  return matches;
+}
+
+//make a function for comparing styles:
+
+function compareStyles(currentAlbum, searchedAlbum) {
+  let matches = [];
+  currentAlbum.forEach((currentAlbum) => {
+    let nestedData = compareStylesArrays(currentAlbum, searchedAlbum);
+    matches.push(nestedData);
+  });
+  return matches;
+}
+
+//make a function for the compareStyles .forEach method:
+
+function compareStylesArrays(currentArray, secondArray) {
+  let matches = new Array();
+  for (i = 0; i < secondArray.length; i++) {
+    if (currentArray == secondArray[i]) {
+      let match = secondArray[i];
+      matches.push(match);
+    } else {
+    }
+  }
+  return matches;
+}
+
+//make a function for comparing years:
+
+function compareYears(currentAlbum, searchedAlbum) {
+  if (currentAlbum == searchedAlbum) {
+    return currentAlbum;
+  } else {
+    return undefined;
+  }
+}
