@@ -6,7 +6,6 @@ fetch(getRandomStartPointer())
     return response.json();
   })
   .then((jsonObj) => {
-    console.log(jsonObj);
     getMainRelease(jsonObj);
   })
   .catch((error) => {
@@ -196,7 +195,6 @@ function getFilteredAlbum(parsedJSON) {
 
 const searchBarAlbumInput = document.getElementById("search-input-album");
 const searchBarArtistInput = document.getElementById("search-input-artist");
-console.log(searchBarArtistInput.value);
 
 searchBarAlbumInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
@@ -274,7 +272,7 @@ function getResourceUrl(response, key) {
           let tempAlbum = getFilteredAlbum(results);
           console.log(results);
           console.log(tempAlbum);
-          checkForMatches(tempAlbum);
+          checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum);
           resetSearchResults();
         })
         .catch((error) => {
@@ -300,28 +298,23 @@ function resetSearchResults() {
 
 //COMPARISON CODE
 
-function checkForMatches(selectedSearchedAlbum) {
-  let albumKey = infoGlobal.connectionsMade;
-  let aritsts = compareArExLa(
-    albumsGlobal[albumKey].aritsts,
-    selectedSearchedAlbum.artists
+function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
+  let aritsts = filterComparisonMissesArrays(
+    compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
   );
-  let extraartists = compareArExLa(
-    albumsGlobal[albumKey].extraartists,
-    selectedSearchedAlbum.extraartists
+  let extraartists = filterComparisonMissesArrays(
+    compareArExLa(
+      currentGlobalAlbum.extraartists,
+      selectedSearchedAlbum.extraartists
+    )
   );
-  let labels = compareArExLa(
-    albumsGlobal[albumKey].labels,
-    selectedSearchedAlbum.labels
+  let labels = filterComparisonMissesArrays(
+    compareArExLa(currentGlobalAlbum.labels, selectedSearchedAlbum.labels)
   );
-  let styles = compareStyles(
-    albumsGlobal[albumKey].styles,
-    selectedSearchedAlbum.styles
+  let styles = filterComparisonMissesArrays(
+    compareStyles(currentGlobalAlbum.styles, selectedSearchedAlbum.styles)
   );
-  let year = compareYears(
-    albumsGlobal[albumKey].year,
-    selectedSearchedAlbum.year
-  );
+  let year = compareYears(currentGlobalAlbum.year, selectedSearchedAlbum.year);
   console.log(aritsts);
   console.log(extraartists);
   console.log(labels);
@@ -329,64 +322,62 @@ function checkForMatches(selectedSearchedAlbum) {
   console.log(year);
 }
 
-//make a constructor for match data:
-
-function MatchedData(artists, extraartists, labels, styles, year) {
-  (this.artists = artists),
-    (this.extraartists = extraartists),
-    (this.labels = labels),
-    (this.styles = styles),
-    (this.year = year);
-}
-
 //The following code is used for comparing the temp album with the current album
 
 function compareArExLa(currentAlbum, searchedAlbum) {
-  let matches = [];
-  currentAlbum.forEach((dataItem) => {
-    let nestedMatches = compareArrays(dataItem, searchedAlbum);
-    matches.push(nestedMatches);
-  });
-  console.log(matches);
+  if (currentAlbum == undefined || searchedAlbum == undefined) {
+    return undefined;
+  } else {
+    let matches = [];
+    currentAlbum.forEach((dataItem) => {
+      let nestedMatches = compareArrays(dataItem, searchedAlbum);
+      matches.push(nestedMatches);
+    });
+    return matches;
+  }
 }
 
 //make a function for the compareArExLa .forEach method
 
 function compareArrays(currentAlbumData, searchedAlbumData) {
-  let matches = [];
   for (i = 0; i < searchedAlbumData.length; i++) {
     if (currentAlbumData.id == searchedAlbumData[i].id) {
+      let matches = [];
       let match = searchedAlbumData[i];
       matches.push(match);
+      return matches;
     } else {
     }
   }
-  return matches;
 }
 
 //make a function for comparing styles:
 
 function compareStyles(currentAlbum, searchedAlbum) {
-  let matches = [];
-  currentAlbum.forEach((currentAlbum) => {
-    let nestedData = compareStylesArrays(currentAlbum, searchedAlbum);
-    matches.push(nestedData);
-  });
-  return matches;
+  if (currentAlbum == undefined || searchedAlbum == undefined) {
+    return undefined;
+  } else {
+    let matches = [];
+    currentAlbum.forEach((currentAlbum) => {
+      let nestedData = compareStylesArrays(currentAlbum, searchedAlbum);
+      matches.push(nestedData);
+    });
+    return matches;
+  }
 }
 
 //make a function for the compareStyles .forEach method:
 
 function compareStylesArrays(currentArray, secondArray) {
-  let matches = new Array();
   for (i = 0; i < secondArray.length; i++) {
     if (currentArray == secondArray[i]) {
+      let matches = new Array();
       let match = secondArray[i];
       matches.push(match);
+      return matches;
     } else {
     }
   }
-  return matches;
 }
 
 //make a function for comparing years:
@@ -397,4 +388,16 @@ function compareYears(currentAlbum, searchedAlbum) {
   } else {
     return undefined;
   }
+}
+
+//make a function for filtering out misses
+
+function filterComparisonMissesArrays(targetArray) {
+  for (i = 0; i < targetArray.length; i++) {
+    if (targetArray[i] == undefined) {
+      targetArray.splice(i, 1);
+      i = 0;
+    }
+  }
+  return targetArray;
 }
