@@ -45,10 +45,10 @@ function getMainRelease(results) {
 
 //create objects to store & reference information globally:
 
-let albumsGlobal = new Array();
+let albumsGlobal = [];
 let infoGlobal = {
   connectionsMade: 0,
-  matches: null,
+  matches: [null],
 };
 
 //Create consturctors:
@@ -212,13 +212,14 @@ searchBarArtistInput.addEventListener("keydown", function (e) {
 //function for searching:
 
 function searchAlbumAndArtist() {
-  let albumValueCheck = searchBarAlbumInput.value;
+  let albumValueCheck = searchBarAlbumInput.value; //string literals
   let artistValueCheck = searchBarArtistInput.value;
   if (albumValueCheck == "") {
   } else {
     albumValueCheck = "release_title=" + searchBarAlbumInput.value + "&";
   }
   if (artistValueCheck == "") {
+    //!
   } else {
     artistValueCheck = "artist=" + searchBarArtistInput.value + "&";
   }
@@ -272,7 +273,7 @@ function getResourceUrl(response, key) {
           let tempAlbum = getFilteredAlbum(results);
           console.log(results);
           console.log(tempAlbum);
-          checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum);
+          checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum); //albumsGlobal.length - 1
           resetSearchResults();
         })
         .catch((error) => {
@@ -297,6 +298,7 @@ function resetSearchResults() {
 } //I cannot get remove event listener working rn, I should ask for help with this, and move forward for now
 
 //COMPARISON CODE
+//MAIN FUNCTION:
 
 function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
   let aritsts = filterComparisonMissesArrays(
@@ -315,11 +317,25 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
     compareStyles(currentGlobalAlbum.styles, selectedSearchedAlbum.styles)
   );
   let year = compareYears(currentGlobalAlbum.year, selectedSearchedAlbum.year);
-  console.log(aritsts);
-  console.log(extraartists);
-  console.log(labels);
-  console.log(styles);
-  console.log(year);
+  let comparedData = new MatchedItems(
+    aritsts,
+    extraartists,
+    labels,
+    styles,
+    year
+  );
+  let returnedMatch = getMatchUsed(comparedData);
+  if (returnedMatch == false) {
+    alert("No Matches Found!");
+    infoGlobal.connectionsMade--;
+    console.log(infoGlobal.connectionsMade);
+  } else {
+    albumsGlobal.push(selectedSearchedAlbum);
+    albumsGlobal = filterComparisonMissesArrays(albumsGlobal); //Something is going wrong with albums global, this fixes it, but I should come back to this during debugging
+    console.log(albumsGlobal); //delete this
+    infoGlobal.matches.push(returnedMatch);
+    console.log(infoGlobal.matches); //delete this
+  }
 }
 
 //The following code is used for comparing the temp album with the current album
@@ -371,7 +387,7 @@ function compareStyles(currentAlbum, searchedAlbum) {
 function compareStylesArrays(currentArray, secondArray) {
   for (i = 0; i < secondArray.length; i++) {
     if (currentArray == secondArray[i]) {
-      let matches = new Array();
+      let matches = [];
       let match = secondArray[i];
       matches.push(match);
       return matches;
@@ -400,4 +416,61 @@ function filterComparisonMissesArrays(targetArray) {
     }
   }
   return targetArray;
+}
+
+//make a constructor for returning the matches
+
+function MatchedItems(artists, extraartists, labels, styles, year) {
+  (this.artists = artists),
+    (this.extraartists = extraartists),
+    (this.labels = labels),
+    (this.styles = styles),
+    (this.year = year);
+}
+
+//Make a function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
+
+function getMatchUsed(matchedItemsObject) {
+  for (const property in matchedItemsObject) {
+    let targetPropertyValue = matchedItemsObject[property];
+    if (Array.isArray(targetPropertyValue)) {
+      for (i = 0; i < targetPropertyValue.length; i++) {
+        if (targetPropertyValue[i] != undefined) {
+          return new MatchUsed(property, targetPropertyValue[i]);
+        }
+      }
+    } else {
+      if (targetPropertyValue == undefined) {
+        return false;
+      } else {
+        return new MatchUsed(property, targetPropertyValue);
+      }
+    }
+  }
+}
+
+function MatchUsed(type, data) {
+  (this.type = type), (this.data = data);
+}
+//Check to see if a connection has been used already, and how many times it's been used:
+//I can't really test this until I've debugged the search results error, os it's time to do that first
+
+function ifMatchedBlocked(currentMatches, attemptedMatch) {
+  currentMatches.forEach((cmData) => {
+    let listOfOccurances = ifMatchedBlockedComparison(cmData, attemptedMatch);
+    if (listOfOccurances.length >= 3) {
+      //block match
+    } else {
+      //accept match
+    }
+  });
+}
+function ifMatchedBlockedComparison(currentMatchesData, attemptedMatchData) {
+  let occurances = [];
+  if (currentMatchesData.data?.id != undefined) {
+    if (currentMatchesData.data.id == attemptedMatchData.data.id) {
+      occurances.push(attemptedMatchData.data.id);
+    }
+  }
+  return occurances;
 }
