@@ -246,15 +246,22 @@ function searchAlbumAndArtist() {
 //BIG PROBLEM: re-searching adds an additional eventListener.
 
 function displaySearchResults(response) {
+  let parentListItem = document.getElementById("search-results-ul");
   for (i = 0; i < response.results.length; i++) {
-    let targetResultElement = document.getElementById("search-result" + i);
-    targetResultElement.innerHTML = response.results[i].title;
-    targetResultElement.style.display = "block";
-    let key = i;
-    targetResultElement.addEventListener("click", function () {
-      getResourceUrl(response, key);
-    });
+    let newListItem = document.createElement("li");
+    newListItem.id = "search-result-" + i;
+    newListItem.innerHTML = response.results[i].title;
+    eventListener(newListItem, response, i);
+    parentListItem.appendChild(newListItem);
   }
+}
+
+//Call the event listener in a seperate function, this keeps 'i' from throwing errors
+
+function eventListener(element, response, key) {
+  element.addEventListener("click", function () {
+    getResourceUrl(response, key);
+  });
 }
 
 //function for getting the resource url:
@@ -274,7 +281,7 @@ function getResourceUrl(response, key) {
           console.log(results);
           console.log(tempAlbum);
           checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum); //albumsGlobal.length - 1
-          resetSearchResults();
+          // resetSearchResults();
         })
         .catch((error) => {
           console.log("Search Step 2: " + error);
@@ -288,14 +295,11 @@ function getResourceUrl(response, key) {
 //function for reseting the search results
 
 function resetSearchResults() {
-  for (i = 0; i < 3; i++) {
-    let targetElement = document.getElementById("search-result" + i);
-    targetElement.style.display = "none";
-    targetElement.removeEventListener("click", function () {
-      getResourceUrl();
-    });
+  let parentListItem = document.getElementById("search-results-ul");
+  while (parentListItem.firstChild) {
+    parentListItem.removeChild(parentListItem.firstChild);
   }
-} //I cannot get remove event listener working rn, I should ask for help with this, and move forward for now
+}
 
 //COMPARISON CODE
 //MAIN FUNCTION:
