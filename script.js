@@ -36,11 +36,21 @@ function getMainRelease(results) {
     .then((results) => {
       console.log(results);
       getFilteredAlbum(results);
+      displayStartingAlbum(results);
       console.log(albumsGlobal);
     })
     .catch((error) => {
       console.log(error);
     });
+}
+
+//Edit the page to display the start album information:
+
+function displayStartingAlbum(album) {
+  let albumName = document.getElementById("last-connection-album-title");
+  let artistName = document.getElementById("last-connection-artist");
+  albumName.innerHTML = album.title;
+  artistName.innerHTML = album.artists[0].name;
 }
 
 //create objects to store & reference information globally:
@@ -200,12 +210,16 @@ searchBarAlbumInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
     resetSearchResults();
     searchAlbumAndArtist();
+    document.getElementById("search-input-album").value = "";
+    document.getElementById("search-input-artist").value = "";
   }
 });
 searchBarArtistInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
     resetSearchResults();
     searchAlbumAndArtist();
+    document.getElementById("search-input-album").value = "";
+    document.getElementById("search-input-artist").value = "";
   }
 });
 
@@ -281,7 +295,6 @@ function getResourceUrl(response, key) {
           console.log(results);
           console.log(tempAlbum);
           checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum); //albumsGlobal.length - 1
-          // resetSearchResults();
         })
         .catch((error) => {
           console.log("Search Step 2: " + error);
@@ -457,7 +470,7 @@ function MatchUsed(type, data) {
   (this.type = type), (this.data = data);
 }
 //Check to see if a connection has been used already, and how many times it's been used:
-//I can't really test this until I've debugged the search results error, os it's time to do that first
+//I can't really test this until I've debugged the search results error, it's time to do that first
 
 function ifMatchedBlocked(currentMatches, attemptedMatch) {
   currentMatches.forEach((cmData) => {
