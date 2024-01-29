@@ -36,7 +36,7 @@ function getMainRelease(results) {
     .then((results) => {
       console.log(results);
       getFilteredAlbum(results);
-      displayStartingAlbum(results);
+      displayCurrentAlbum(albumsGlobal);
       console.log(albumsGlobal);
     })
     .catch((error) => {
@@ -46,11 +46,30 @@ function getMainRelease(results) {
 
 //Edit the page to display the start album information:
 
-function displayStartingAlbum(album) {
+function displayCurrentAlbum() {
   let albumName = document.getElementById("last-connection-album-title");
   let artistName = document.getElementById("last-connection-artist");
-  albumName.innerHTML = album.title;
-  artistName.innerHTML = album.artists[0].name;
+  albumName.innerHTML = albumsGlobal[albumsGlobal.length - 1].album;
+  artistName.innerHTML = albumsGlobal[albumsGlobal.length - 1].artists[0].name;
+  if (albumsGlobal.length > 1) {
+    let match = undefined;
+    let connectionName = document.getElementById("last-connection");
+    let matchType = infoGlobal.matches[albumsGlobal.length - 1].type;
+    if (Array.isArray(infoGlobal.matches[albumsGlobal.length - 1].data)) {
+      if (
+        infoGlobal.matches[albumsGlobal.length - 1].data[0]?.name == undefined
+      ) {
+        match = infoGlobal.matches[albumsGlobal.length - 1].data[0];
+        connectionName.innerHTML = matchType + ": " + match;
+      } else {
+        match = infoGlobal.matches[albumsGlobal.length - 1].data[0].name;
+        connectionName.innerHTML = matchType + ": " + match;
+      }
+    } else {
+      match = infoGlobal.matches[albumsGlobal.length - 1].data;
+      connectionName.innerHTML = matchType + ": " + match;
+    }
+  }
 }
 
 //create objects to store & reference information globally:
@@ -297,7 +316,8 @@ function getResourceUrl(response, key) {
           checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum); //albumsGlobal.length - 1
         })
         .catch((error) => {
-          console.log("Search Step 2: " + error);
+          console.log("Search Step 2");
+          console.log(error);
         });
     })
     .catch((error) => {
@@ -341,18 +361,9 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
     styles,
     year
   );
-  let returnedMatch = getMatchUsed(comparedData);
-  if (returnedMatch == false) {
-    alert("No Matches Found!");
-    infoGlobal.connectionsMade--;
-    console.log(infoGlobal.connectionsMade);
-  } else {
-    albumsGlobal.push(selectedSearchedAlbum);
-    albumsGlobal = filterComparisonMissesArrays(albumsGlobal); //Something is going wrong with albums global, this fixes it, but I should come back to this during debugging
-    console.log(albumsGlobal); //delete this
-    infoGlobal.matches.push(returnedMatch);
-    console.log(infoGlobal.matches); //delete this
-  }
+  getMatchUsed(comparedData, infoGlobal.matches, selectedSearchedAlbum);
+  filterComparisonMissesArrays(albumsGlobal);
+  displayCurrentAlbum(selectedSearchedAlbum);
 }
 
 //The following code is used for comparing the temp album with the current album
@@ -446,21 +457,36 @@ function MatchedItems(artists, extraartists, labels, styles, year) {
 }
 
 //Make a function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
-
-function getMatchUsed(matchedItemsObject) {
-  for (const property in matchedItemsObject) {
+//need to include the check to see if a match is used more than three times here
+function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
+  Loop: for (const property in matchedItemsObject) {
     let targetPropertyValue = matchedItemsObject[property];
     if (Array.isArray(targetPropertyValue)) {
       for (i = 0; i < targetPropertyValue.length; i++) {
         if (targetPropertyValue[i] != undefined) {
-          return new MatchUsed(property, targetPropertyValue[i]);
+          let newMatch = new MatchUsed(property, targetPropertyValue[i]);
+          let permission = ifMatchedBlocked(globalMatches, newMatch);
+          console.log(permission); //delete
+          if (permission == true) {
+          }
+          infoGlobal.matches.push(newMatch);
+          albumsGlobal.push(fullAlbumData);
+          break Loop;
         }
       }
     } else {
       if (targetPropertyValue == undefined) {
-        return false;
+        alert("No Matches Found!");
+        infoGlobal.connectionsMade--;
       } else {
-        return new MatchUsed(property, targetPropertyValue);
+        let newMatch = new MatchUsed(property, targetPropertyValue);
+        let permission = ifMatchedBlocked(globalMatches, newMatch);
+        console.log(permission); //delete
+        if (permission == true) {
+          infoGlobal.matches.push(newMatch);
+          albumsGlobal.push(fullAlbumData);
+          break Loop;
+        }
       }
     }
   }
@@ -473,18 +499,23 @@ function MatchUsed(type, data) {
 //I can't really test this until I've debugged the search results error, it's time to do that first
 
 function ifMatchedBlocked(currentMatches, attemptedMatch) {
+  let boolean = undefined;
   currentMatches.forEach((cmData) => {
     let listOfOccurances = ifMatchedBlockedComparison(cmData, attemptedMatch);
     if (listOfOccurances.length >= 3) {
       //block match
+      boolean = false;
     } else {
       //accept match
+      boolean = true;
     }
   });
+  return boolean;
 }
+
 function ifMatchedBlockedComparison(currentMatchesData, attemptedMatchData) {
   let occurances = [];
-  if (currentMatchesData.data?.id != undefined) {
+  if (currentMatchesData?.data?.id != undefined) {
     if (currentMatchesData.data.id == attemptedMatchData.data.id) {
       occurances.push(attemptedMatchData.data.id);
     }
