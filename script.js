@@ -89,8 +89,7 @@ function Album(
   extraartists,
   labels,
   styles,
-  year,
-  connectionNumber
+  year
 ) {
   (this.albumPosition = albumPosition),
     (this.album = album),
@@ -98,8 +97,7 @@ function Album(
     (this.extraartists = extraartists),
     (this.labels = labels),
     (this.styles = styles),
-    (this.year = year),
-    (this.connectionNumber = connectionNumber);
+    (this.year = year);
 }
 
 function FilteredArrays(name, id) {
@@ -118,13 +116,12 @@ function indexerFilter(currentItem) {
   return filteredResults;
 }
 function getAlbumCount() {
-  if (albumsGlobal == undefined) {
+  if (albumsGlobal.length < 1) {
     return 0;
   } else {
-    return albumsGlobal.length++;
+    return albumsGlobal.length;
   }
 }
-
 //tracklistartists is getting its own section because A) It's very complicated, B) it's a lot of code:
 
 //The main functionion:
@@ -196,8 +193,7 @@ function getFilteredAlbum(parsedJSON) {
         contributingArtists,
         labels,
         styles,
-        year,
-        infoGlobal.connectionsMade
+        year
       )
     );
   } else {
@@ -208,8 +204,7 @@ function getFilteredAlbum(parsedJSON) {
       contributingArtists,
       labels,
       styles,
-      year,
-      infoGlobal.connectionsMade
+      year
     );
   }
 }
@@ -313,7 +308,7 @@ function getResourceUrl(response, key) {
           let tempAlbum = getFilteredAlbum(results);
           console.log(results);
           console.log(tempAlbum);
-          checkForMatches(albumsGlobal[infoGlobal.connectionsMade], tempAlbum); //albumsGlobal.length - 1
+          checkForMatches(albumsGlobal[albumsGlobal.length - 1], tempAlbum); //albumsGlobal.length - 1
         })
         .catch((error) => {
           console.log("Search Step 2");
@@ -338,32 +333,52 @@ function resetSearchResults() {
 //MAIN FUNCTION:
 
 function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
-  let aritsts = filterComparisonMissesArrays(
-    compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
-  );
-  let extraartists = filterComparisonMissesArrays(
-    compareArExLa(
-      currentGlobalAlbum.extraartists,
-      selectedSearchedAlbum.extraartists
-    )
-  );
-  let labels = filterComparisonMissesArrays(
-    compareArExLa(currentGlobalAlbum.labels, selectedSearchedAlbum.labels)
-  );
-  let styles = filterComparisonMissesArrays(
-    compareStyles(currentGlobalAlbum.styles, selectedSearchedAlbum.styles)
-  );
-  let year = compareYears(currentGlobalAlbum.year, selectedSearchedAlbum.year);
-  let comparedData = new MatchedItems(
-    aritsts,
-    extraartists,
-    labels,
-    styles,
-    year
-  );
-  getMatchUsed(comparedData, infoGlobal.matches, selectedSearchedAlbum);
-  filterComparisonMissesArrays(albumsGlobal);
-  displayCurrentAlbum(selectedSearchedAlbum);
+  if (compareAlbumTitles(selectedSearchedAlbum)) {
+    alert("This album has been used already!");
+    infoGlobal.connectionsMade = infoGlobal.connectionsMade--;
+  } else {
+    let aritsts = filterComparisonMissesArrays(
+      compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
+    );
+    let extraartists = filterComparisonMissesArrays(
+      compareArExLa(
+        currentGlobalAlbum.extraartists,
+        selectedSearchedAlbum.extraartists
+      )
+    );
+    let labels = filterComparisonMissesArrays(
+      compareArExLa(currentGlobalAlbum.labels, selectedSearchedAlbum.labels)
+    );
+    let styles = filterComparisonMissesArrays(
+      compareStyles(currentGlobalAlbum.styles, selectedSearchedAlbum.styles)
+    );
+    let year = compareYears(
+      currentGlobalAlbum.year,
+      selectedSearchedAlbum.year
+    );
+    let comparedData = new MatchedItems(
+      aritsts,
+      extraartists,
+      labels,
+      styles,
+      year
+    );
+    getMatchUsed(comparedData, infoGlobal.matches, selectedSearchedAlbum);
+    filterComparisonMissesArrays(albumsGlobal);
+    displayCurrentAlbum(selectedSearchedAlbum);
+  }
+}
+
+//The function for rejecting an album if it's the same as the one being compared against:
+
+function compareAlbumTitles(searchedAlbum) {
+  for (i = 0; i < albumsGlobal.length; i++) {
+    if (searchedAlbum.album == albumsGlobal[i].album) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 //The following code is used for comparing the temp album with the current album
@@ -413,13 +428,15 @@ function compareStyles(currentAlbum, searchedAlbum) {
 //make a function for the compareStyles .forEach method:
 
 function compareStylesArrays(currentArray, secondArray) {
-  for (i = 0; i < secondArray.length; i++) {
-    if (currentArray == secondArray[i]) {
-      let matches = [];
-      let match = secondArray[i];
-      matches.push(match);
-      return matches;
-    } else {
+  if (currentArray != undefined && secondArray != undefined) {
+    for (i = 0; i < secondArray.length; i++) {
+      if (currentArray == secondArray[i]) {
+        let matches = [];
+        let match = secondArray[i];
+        matches.push(match);
+        return matches;
+      } else {
+      }
     }
   }
 }
@@ -437,13 +454,15 @@ function compareYears(currentAlbum, searchedAlbum) {
 //make a function for filtering out misses
 
 function filterComparisonMissesArrays(targetArray) {
-  for (i = 0; i < targetArray.length; i++) {
-    if (targetArray[i] == undefined) {
-      targetArray.splice(i, 1);
-      i = 0;
+  if (targetArray != undefined) {
+    for (i = 0; i < targetArray.length; i++) {
+      if (targetArray[i] == undefined) {
+        targetArray.splice(i, 1);
+        i = 0;
+      }
     }
+    return targetArray;
   }
-  return targetArray;
 }
 
 //make a constructor for returning the matches
@@ -457,7 +476,8 @@ function MatchedItems(artists, extraartists, labels, styles, year) {
 }
 
 //Make a function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
-//need to include the check to see if a match is used more than three times here
+//need to include the check to see if a match is used more than three times here:
+
 function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
   Loop: for (const property in matchedItemsObject) {
     let targetPropertyValue = matchedItemsObject[property];
@@ -468,16 +488,25 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
           let permission = ifMatchedBlocked(globalMatches, newMatch);
           console.log(permission); //delete
           if (permission == true) {
+            infoGlobal.matches.push(newMatch);
+            albumsGlobal.push(fullAlbumData);
+            infoGlobal.connectionsMade++;
+            break Loop;
+          } else {
+            alert(
+              newMatch.type +
+                ": " +
+                newMatch.data[0].name +
+                " has already been used 3 times!"
+            );
+            break Loop;
           }
-          infoGlobal.matches.push(newMatch);
-          albumsGlobal.push(fullAlbumData);
-          break Loop;
         }
       }
     } else {
       if (targetPropertyValue == undefined) {
         alert("No Matches Found!");
-        infoGlobal.connectionsMade--;
+        infoGlobal.connectionsMade--; //this breaks things, get around to it once ifMatchedBlocked is fix
       } else {
         let newMatch = new MatchUsed(property, targetPropertyValue);
         let permission = ifMatchedBlocked(globalMatches, newMatch);
@@ -485,6 +514,15 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
         if (permission == true) {
           infoGlobal.matches.push(newMatch);
           albumsGlobal.push(fullAlbumData);
+          infoGlobal.connectionsMade++;
+          break Loop;
+        } else {
+          alert(
+            newMatch.type +
+              ": " +
+              newMatch.data.name +
+              " has already been used 3 times!"
+          );
           break Loop;
         }
       }
@@ -495,30 +533,35 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
 function MatchUsed(type, data) {
   (this.type = type), (this.data = data);
 }
-//Check to see if a connection has been used already, and how many times it's been used:
-//I can't really test this until I've debugged the search results error, it's time to do that first
+//Check to see if a connection has been used already, and how many times it's been used. If used less than 3 times, return true, else return false:
 
 function ifMatchedBlocked(currentMatches, attemptedMatch) {
   let boolean = undefined;
-  currentMatches.forEach((cmData) => {
-    let listOfOccurances = ifMatchedBlockedComparison(cmData, attemptedMatch);
-    if (listOfOccurances.length >= 3) {
-      //block match
-      boolean = false;
-    } else {
-      //accept match
-      boolean = true;
-    }
-  });
-  return boolean;
-}
-
-function ifMatchedBlockedComparison(currentMatchesData, attemptedMatchData) {
   let occurances = [];
-  if (currentMatchesData?.data?.id != undefined) {
-    if (currentMatchesData.data.id == attemptedMatchData.data.id) {
-      occurances.push(attemptedMatchData.data.id);
+  for (i = 0; i < currentMatches.length; i++) {
+    if (currentMatches[i] != null) {
+      switch (attemptedMatch.type) {
+        case "artists":
+        case "extraartists":
+        case "labels":
+          if (currentMatches[i].data[0].id == attemptedMatch.data[0].id) {
+            occurances.push(attemptedMatch.data[0].id);
+            break;
+          }
+        case "year":
+        case "labels":
+          if (currentMatches[i].data == attemptedMatch.data) {
+            occurances.push(attemptedMatch.data);
+            break;
+          }
+      }
     }
   }
-  return occurances;
+  if (occurances.length >= 3) {
+    boolean = false;
+  } else {
+    boolean = true;
+  }
+  occurances = [];
+  return boolean;
 }
