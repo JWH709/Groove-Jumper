@@ -166,7 +166,7 @@ function mergeToContributingArtists(extra, tracklist) {
 
 function killDuplicateTracklist(somewhatFilteredResults) {
   for (i = 0; i < somewhatFilteredResults.length; i++) {}
-}
+} //This does nothing as of right now, use it or lose it
 
 //Functions that will then use the constructors to build an object:
 
@@ -271,24 +271,23 @@ function searchAlbumAndArtist() {
 
 //Need to put results on the page:
 
-//BIG PROBLEM: re-searching adds an additional eventListener.
-
 function displaySearchResults(response) {
   let parentListItem = document.getElementById("search-results-ul");
   for (i = 0; i < response.results.length; i++) {
     let newListItem = document.createElement("li");
     newListItem.id = "search-result-" + i;
     newListItem.innerHTML = response.results[i].title;
-    eventListener(newListItem, response, i);
+    eventListenerFunction(newListItem, response, i);
     parentListItem.appendChild(newListItem);
   }
 }
 
 //Call the event listener in a seperate function, this keeps 'i' from throwing errors
 
-function eventListener(element, response, key) {
+function eventListenerFunction(element, response, key) {
   element.addEventListener("click", function () {
     getResourceUrl(response, key);
+    resetSearchResults();
   });
 }
 
@@ -477,6 +476,7 @@ function MatchedItems(artists, extraartists, labels, styles, year) {
 
 //Make a function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
 //need to include the check to see if a match is used more than three times here:
+//this is the ugly one this time:
 
 function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
   Loop: for (const property in matchedItemsObject) {
@@ -564,4 +564,20 @@ function ifMatchedBlocked(currentMatches, attemptedMatch) {
   }
   occurances = [];
   return boolean;
+}
+
+//Code pretaining to game start and game end:
+
+//Timer function:
+
+function timerFunctionality() {
+  let timer = document.getElementById("timer");
+  timer.innerHTML = 20;
+  setInterval(function () {
+    if (timer.innerHTML == 0) {
+      clearInterval(timerFunctionality);
+    } else {
+      timer.innerHTML = timer.innerHTML - 1;
+    }
+  }, 1000);
 }
