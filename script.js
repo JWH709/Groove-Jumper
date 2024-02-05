@@ -1,16 +1,18 @@
 //TOKEN:
 let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
-fetch(getRandomStartPointer())
-  .then((response) => {
-    return response.json();
-  })
-  .then((jsonObj) => {
-    getMainRelease(jsonObj);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+//02/05/2024: Wrapping this in a function & attaching it to the start game button
+
+// fetch(getRandomStartPointer())
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((jsonObj) => {
+//     getMainRelease(jsonObj);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
 
 //Code that determines the start point:
 
@@ -491,6 +493,7 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
             infoGlobal.matches.push(newMatch);
             albumsGlobal.push(fullAlbumData);
             infoGlobal.connectionsMade++;
+            document.getElementById("timer").innerHTML = 20;
             break Loop;
           } else {
             alert(
@@ -515,6 +518,7 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
           infoGlobal.matches.push(newMatch);
           albumsGlobal.push(fullAlbumData);
           infoGlobal.connectionsMade++;
+          document.getElementById("timer").innerHTML = 20;
           break Loop;
         } else {
           alert(
@@ -549,7 +553,7 @@ function ifMatchedBlocked(currentMatches, attemptedMatch) {
             break;
           }
         case "year":
-        case "labels":
+        case "styles":
           if (currentMatches[i].data == attemptedMatch.data) {
             occurances.push(attemptedMatch.data);
             break;
@@ -576,8 +580,43 @@ function timerFunctionality() {
   setInterval(function () {
     if (timer.innerHTML == 0) {
       clearInterval(timerFunctionality);
+      gameOver();
     } else {
       timer.innerHTML = timer.innerHTML - 1;
     }
   }, 1000);
 }
+
+//function for the timer running out:
+
+function gameOver() {
+  albumsGlobal = [];
+  infoGlobal.connectionsMade = 0;
+  infoGlobal.matches = [null];
+  document.getElementById("wrapper-hide-on-start").style.display = "none";
+  document.getElementById("button-game-start").style.display = "inline";
+}
+
+//Main game start function via button game start:
+
+document
+  .getElementById("button-game-start")
+  .addEventListener("click", function () {
+    fetch(getRandomStartPointer())
+      .then((response) => {
+        return response.json();
+      })
+      .then((jsonObj) => {
+        getMainRelease(jsonObj);
+        if (document.getElementById("timer").innerHTML == 20) {
+          timerFunctionality();
+        } else {
+          document.getElementById("timer").innerHTML = 20;
+        }
+        document.getElementById("wrapper-hide-on-start").style.display = "flex";
+        document.getElementById("button-game-start").style.display = "none";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
