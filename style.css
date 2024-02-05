@@ -27,7 +27,7 @@ body {
 /* CSS pretaining to the main tab */
 
 #wrapper-hide-on-start {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -75,12 +75,25 @@ body {
   border: 5px solid rgb(50, 50, 50);
   margin: 10px;
   border-radius: 7%;
-  height: 200px;
-  width: 200px;
+  height: 250px;
+  width: 250px;
 }
 .strike-image {
   height: 20px;
   width: 20px;
+  margin: 1px;
+  margin-top: 0px;
+  display: none;
+}
+#strikes-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+#strike-system-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 /* CSS pretaining to the example section */

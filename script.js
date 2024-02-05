@@ -487,13 +487,15 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
       for (i = 0; i < targetPropertyValue.length; i++) {
         if (targetPropertyValue[i] != undefined) {
           let newMatch = new MatchUsed(property, targetPropertyValue[i]);
-          let permission = ifMatchedBlocked(globalMatches, newMatch);
+          let permission = isMatchBlocked(globalMatches, newMatch);
           console.log(permission); //delete
           if (permission == true) {
             infoGlobal.matches.push(newMatch);
             albumsGlobal.push(fullAlbumData);
             infoGlobal.connectionsMade++;
             document.getElementById("timer").innerHTML = 20;
+            document.getElementById("score-display").innerHTML =
+              infoGlobal.connectionsMade;
             break Loop;
           } else {
             alert(
@@ -509,16 +511,18 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
     } else {
       if (targetPropertyValue == undefined) {
         alert("No Matches Found!");
-        infoGlobal.connectionsMade--; //this breaks things, get around to it once ifMatchedBlocked is fix
+        infoGlobal.connectionsMade--; //this breaks things, get around to it once isMatchBlocked is fix
       } else {
         let newMatch = new MatchUsed(property, targetPropertyValue);
-        let permission = ifMatchedBlocked(globalMatches, newMatch);
+        let permission = isMatchBlocked(globalMatches, newMatch);
         console.log(permission); //delete
         if (permission == true) {
           infoGlobal.matches.push(newMatch);
           albumsGlobal.push(fullAlbumData);
           infoGlobal.connectionsMade++;
           document.getElementById("timer").innerHTML = 20;
+          document.getElementById("score-display").innerHTML =
+            infoGlobal.connectionsMade;
           break Loop;
         } else {
           alert(
@@ -539,7 +543,7 @@ function MatchUsed(type, data) {
 }
 //Check to see if a connection has been used already, and how many times it's been used. If used less than 3 times, return true, else return false:
 
-function ifMatchedBlocked(currentMatches, attemptedMatch) {
+function isMatchBlocked(currentMatches, attemptedMatch) {
   let boolean = undefined;
   let occurances = [];
   for (i = 0; i < currentMatches.length; i++) {
@@ -561,12 +565,44 @@ function ifMatchedBlocked(currentMatches, attemptedMatch) {
       }
     }
   }
-  if (occurances.length >= 3) {
-    boolean = false;
-  } else {
-    boolean = true;
-  }
+  boolean = strikes(occurances.length);
   occurances = [];
+  return boolean;
+}
+
+//function for strike system, to be used in isMatchBlocked:
+
+function strikes(numberOfStrikes) {
+  let strikeOne = document.getElementById("strike-image-1");
+  let strikeTwo = document.getElementById("strike-image-2");
+  let strikeThree = document.getElementById("strike-image-3");
+  let boolean = undefined;
+  switch (numberOfStrikes) {
+    case 0:
+      strikeOne.style.display = "inline";
+      strikeTwo.style.display = "none";
+      strikeThree.style.display = "none";
+      boolean = true;
+      break;
+    case 1:
+      strikeOne.style.display = "inline";
+      strikeTwo.style.display = "inline";
+      strikeThree.style.display = "none";
+      boolean = true;
+      break;
+    case 2:
+      strikeOne.style.display = "inline";
+      strikeTwo.style.display = "inline";
+      strikeThree.style.display = "inline";
+      boolean = true;
+      break;
+    case 3:
+      strikeOne.style.display = "inline";
+      strikeTwo.style.display = "inline";
+      strikeThree.style.display = "inline";
+      boolean = false;
+      break;
+  }
   return boolean;
 }
 
@@ -595,6 +631,10 @@ function gameOver() {
   infoGlobal.matches = [null];
   document.getElementById("wrapper-hide-on-start").style.display = "none";
   document.getElementById("button-game-start").style.display = "inline";
+  document.getElementById("last-connection").innerHTML = "";
+  document.getElementById("strike-image-1").style.display = "none";
+  document.getElementById("strike-image-2").style.display = "none";
+  document.getElementById("strike-image-3").style.display = "none";
 }
 
 //Main game start function via button game start:
