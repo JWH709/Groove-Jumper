@@ -336,7 +336,6 @@ function resetSearchResults() {
 function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
   if (compareAlbumTitles(selectedSearchedAlbum)) {
     alert("This album has been used already!");
-    infoGlobal.connectionsMade = infoGlobal.connectionsMade--;
   } else {
     let aritsts = filterComparisonMissesArrays(
       compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
@@ -511,7 +510,6 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
     } else {
       if (targetPropertyValue == undefined) {
         alert("No Matches Found!");
-        infoGlobal.connectionsMade--; //this breaks things, get around to it once isMatchBlocked is fix
       } else {
         let newMatch = new MatchUsed(property, targetPropertyValue);
         let permission = isMatchBlocked(globalMatches, newMatch);
