@@ -492,7 +492,8 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
             infoGlobal.matches.push(newMatch);
             albumsGlobal.push(fullAlbumData);
             infoGlobal.connectionsMade++;
-            document.getElementById("timer").innerHTML = 20;
+            displayPastConnections();
+            document.getElementById("timer").innerHTML = 30;
             document.getElementById("score-display").innerHTML =
               infoGlobal.connectionsMade;
             break Loop;
@@ -518,7 +519,8 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
           infoGlobal.matches.push(newMatch);
           albumsGlobal.push(fullAlbumData);
           infoGlobal.connectionsMade++;
-          document.getElementById("timer").innerHTML = 20;
+          displayPastConnections();
+          document.getElementById("timer").innerHTML = 30;
           document.getElementById("score-display").innerHTML =
             infoGlobal.connectionsMade;
           break Loop;
@@ -610,7 +612,7 @@ function strikes(numberOfStrikes) {
 
 function timerFunctionality() {
   let timer = document.getElementById("timer");
-  timer.innerHTML = 20;
+  timer.innerHTML = 30;
   setInterval(function () {
     if (timer.innerHTML == 0) {
       clearInterval(timerFunctionality);
@@ -646,15 +648,44 @@ document
       })
       .then((jsonObj) => {
         getMainRelease(jsonObj);
-        if (document.getElementById("timer").innerHTML == 20) {
+        if (document.getElementById("timer").innerHTML == 30) {
           timerFunctionality();
         } else {
-          document.getElementById("timer").innerHTML = 20;
+          document.getElementById("timer").innerHTML = 30;
         }
+        clearPastConnections();
         document.getElementById("wrapper-hide-on-start").style.display = "flex";
         document.getElementById("button-game-start").style.display = "none";
+        document.getElementById("score-display").innerHTML = 0;
       })
       .catch((error) => {
         console.log(error);
       });
   });
+
+//Past connections function
+
+function displayPastConnections() {
+  let parent = document.getElementById("history-display");
+  let newEntry = document.createElement("ul");
+  newEntry.innerHTML = albumsGlobal[infoGlobal.connectionsMade].album;
+  let entryLink = document.createElement("li");
+  entryLink.innerHTML =
+    "From " +
+    albumsGlobal[infoGlobal.connectionsMade - 1].album +
+    " via " +
+    document.getElementById("last-connection").innerHTML;
+  newEntry.appendChild(entryLink);
+  parent.appendChild(newEntry);
+}
+
+//clear past connections on gamer start:
+
+function clearPastConnections() {
+  let pastConnections = document.getElementById("history-display");
+  if (pastConnections.children.length > 0) {
+    while (pastConnections.firstChild) {
+      pastConnections.removeChild(pastConnections.firstChild);
+    }
+  }
+}

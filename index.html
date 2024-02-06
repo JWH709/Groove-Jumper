@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groove Jumper</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="main-page">
@@ -18,28 +24,32 @@
           albums, so make sure you know your way out of where you're going!
         </p>
         <div id="example">
-          <img
-            src="./images/vinyl.png"
-            alt="The album cover for Songs for the Deaf by Queens of the Stone Age"
-            class="record-image"
-          />
+          <div class="example-image-wrapper">
+            <img
+              src="./images/vinyl.png"
+              alt="The album cover for Songs for the Deaf by Queens of the Stone Age"
+              class="record-image"
+            />
+            <p>Nirvana - Nevermind</p>
+          </div>
           <div class="line"></div>
-          <p id="link-example">Dave Ghrol</p>
+          <div id="link-example-wrapper">
+            <p id="link-example">Dave Grohl</p>
+          </div>
           <div class="line"></div>
-          <img
-            src="./images/vinyl.png"
-            alt="The album cover for Nevermind by Nirvana"
-            class="record-image"
-          />
+          <div class="example-image-wrapper">
+            <img
+              src="./images/vinyl.png"
+              alt="The album cover for Nevermind by Nirvana"
+              class="record-image"
+            />
+            <p>Queens of the Stone Age - <br />Songs for the Deaf</p>
+          </div>
         </div>
       </div>
       <div id="center-tab">
         <button id="button-game-start">Start</button>
         <div id="wrapper-hide-on-start">
-          <div id="score-display-box">
-            <h2>Streak:</h2>
-            <h2 id="score-display">0</h2>
-          </div>
           <div id="record-container">
             <div id="blank-div"></div>
             <div id="last-connection-container">
@@ -72,7 +82,7 @@
             <div id="blank-div"></div>
           </div>
           <div id="timer-container">
-            <h4 id="timer">20</h4>
+            <h4 id="timer">30</h4>
           </div>
 
           <div id="search-bar-container">
@@ -97,14 +107,11 @@
         </div>
       </div>
       <div id="right-tab" class="side-tabs">
-        <h2>Game Over!</h2>
-        <div id="streak-box">
-          <h3>Streak:</h3>
-          <h3 id="streak-display">0</h3>
+        <div id="score-display-box">
+          <h2>Streak:</h2>
+          <h2 id="score-display">0</h2>
         </div>
-        <div id="history-display">
-          <p>I'm thinking a lot of JS will be required for this tab but w/e</p>
-        </div>
+        <div id="history-display"></div>
       </div>
     </div>
     <script src="./script.js"></script>
