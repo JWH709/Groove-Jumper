@@ -674,11 +674,29 @@ function displayPastConnections() {
     "From " +
     albumsGlobal[infoGlobal.connectionsMade - 1].album +
     " via " +
-    document.getElementById("last-connection").innerHTML;
+    infoGlobal.matches[infoGlobal.connectionsMade].type +
+    ": " +
+    connectionType();
   newEntry.appendChild(entryLink);
   parent.appendChild(newEntry);
 }
 
+function connectionType() {
+  returnedString = "";
+  switch (infoGlobal.matches[infoGlobal.connectionsMade].type) {
+    case "artists":
+    case "extraartists":
+    case "labels":
+      returnedString =
+        infoGlobal.matches[infoGlobal.connectionsMade].data[0].name;
+      break;
+    case "styles":
+    case "year":
+      returnedString = infoGlobal.matches[infoGlobal.connectionsMade].data;
+      break;
+  }
+  return returnedString;
+}
 //clear past connections on gamer start:
 
 function clearPastConnections() {

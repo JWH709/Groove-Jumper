@@ -96,6 +96,23 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
 }
+#button-game-start {
+  width: 300px;
+  height: 100px;
+  border: transparent;
+  border-radius: 50px;
+  background-color: rgb(38, 11, 49);
+  font-family: 'Oswald', sans-serif;
+  font-size: larger;
+  color: aliceblue;
+  box-shadow: 5px 5px 20px -2px black;
+  transition-duration: 0.4s;
+}
+#button-game-start:hover {
+  background-color: rgb(167, 44, 216);
+  color: black;
+  cursor: pointer;
+}
 
 /* CSS pretaining to the example section */
 
