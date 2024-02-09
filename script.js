@@ -253,72 +253,77 @@ function searchAlbumAndArtist() {
   } else {
     artistValueCheck = "artist=" + searchBarArtistInput.value + "&";
   }
-  fetch(
-    "https://api.discogs.com/database/search?" +
-      albumValueCheck +
-      artistValueCheck +
-      "type=release&per_page=3&page=1&token=" +
-      personalAccessToken
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((results) => {
-      console.log(results);
-      displaySearchResults(results);
-      albumValueCheck.value = "";
-      artistValueCheck.value = "";
-    });
+  let formats = ["Album", "EP"];
+  let currentFormat = "";
+  for (i = 0; i < formats.length; i++) {
+    currentFormat = "format=" + formats[i] + "&";
+    fetch(
+      "https://api.discogs.com/database/search?" +
+        albumValueCheck +
+        artistValueCheck +
+        currentFormat +
+        "type=master&per_page=20&page=1&token=QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT"
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((results) => {
+        console.log(results);
+        displaySearchResults(results);
+      });
+  }
 }
 
 //Need to put results on the page:
 
-function displaySearchResults(response) {
-  let parentListItem = document.getElementById("search-results-ul");
-  for (i = 0; i < response.results.length; i++) {
-    let newListItem = document.createElement("li");
-    newListItem.id = "search-result-" + i;
-    newListItem.innerHTML = response.results[i].title;
-    eventListenerFunction(newListItem, response, i);
-    parentListItem.appendChild(newListItem);
+function displaySearchResults(results) {
+  let parent = document.getElementById("search-results-ul");
+  for (i = 0; i < results.results.length; i++) {
+    let formats = results.results[i].format;
+    Check: for (j = 0; j < formats.length; j++) {
+      if (
+        formats[j] == "Single" ||
+        formats[j] == "Compilation" ||
+        formats[j] == "Unofficial Release"
+      ) {
+      } else {
+        let newResult = document.createElement("li");
+        newResult.innerHTML = results.results[i].title;
+        eventListenerWrapper(results, newResult, i);
+        parent.appendChild(newResult);
+        break Check;
+      }
+    }
   }
 }
 
-//Call the event listener in a seperate function, this keeps 'i' from throwing errors
-
-function eventListenerFunction(element, response, key) {
-  element.addEventListener("click", function () {
-    getResourceUrl(response, key);
+function eventListenerWrapper(results, child, key) {
+  child.addEventListener("click", function () {
     resetSearchResults();
+    fetch(results.results[key].resource_url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((results) => {
+        fetch(results.main_release_url)
+          .then((response) => {
+            return response.json();
+          })
+          .then((results) => {
+            let tempAlbum = getFilteredAlbum(results);
+            console.log(results);
+            console.log(tempAlbum);
+            checkForMatches(albumsGlobal[albumsGlobal.length - 1], tempAlbum);
+          })
+          .catch((error) => {
+            console.log("Search Step 2");
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log("Search Step 1: " + error);
+      });
   });
-}
-
-//function for getting the resource url:
-
-function getResourceUrl(response, key) {
-  fetch(response.results[key].resource_url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((results) => {
-      fetch(results.resource_url)
-        .then((response) => {
-          return response.json();
-        })
-        .then((results) => {
-          let tempAlbum = getFilteredAlbum(results);
-          console.log(results);
-          console.log(tempAlbum);
-          checkForMatches(albumsGlobal[albumsGlobal.length - 1], tempAlbum); //albumsGlobal.length - 1
-        })
-        .catch((error) => {
-          console.log("Search Step 2");
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.log("Search Step 1: " + error);
-    });
 }
 
 //function for reseting the search results
