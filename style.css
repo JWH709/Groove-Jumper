@@ -113,6 +113,55 @@ body {
   color: black;
   cursor: pointer;
 }
+#search-bar-container {
+  /* border: 2px salmon solid; */
+  width: 325px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-bars {
+  width: 150px;
+  height: 30px;
+  border: transparent;
+  border-radius: 5px;
+  text-align: center;
+  font-size: medium;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+#search-results-ul {
+  height: 400px;
+  width: 325px;
+  /* border:1px solid #ccc; */
+  overflow:auto;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px
+}
+::-webkit-scrollbar-track {
+  border: 1px solid rgb(28, 28, 28);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(50, 50, 50);
+  border-radius: 10px;
+}
+.search-result-li {
+width: 350px;
+height: 30px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+transition-duration: 0.4s;
+}
+.search-result-li:hover {
+  cursor: pointer;
+  background-color: rgb(28, 28, 28);
+}
 
 /* CSS pretaining to the example section */
 

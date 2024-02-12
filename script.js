@@ -289,6 +289,9 @@ function displaySearchResults(results) {
       } else {
         let newResult = document.createElement("li");
         newResult.innerHTML = results.results[i].title;
+        newResult.className = "search-result-li";
+        newResult.title = results.results[i].title;
+        newResult.dataset.albumCover = results.results[i].thumb;
         eventListenerWrapper(results, newResult, i);
         parent.appendChild(newResult);
         break Check;
