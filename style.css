@@ -70,7 +70,7 @@ body {
 #last-connection-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: rgb(50, 50, 50);
   border: 5px solid rgb(50, 50, 50);
@@ -78,6 +78,11 @@ body {
   border-radius: 7%;
   height: 250px;
   width: 250px;
+}
+#album-cover {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
 }
 .strike-image {
   height: 20px;
@@ -95,6 +100,14 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+#last-connection {
+  margin: 0px;
+  margin-bottom: 3px;
+}
+#last-connection-artist {
+  margin: 0px;
+  margin-bottom: 3px;
 }
 #button-game-start {
   width: 300px;

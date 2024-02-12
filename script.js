@@ -22,9 +22,13 @@ function getRandomStartPointer() {
   let pointer = Math.round(Math.random() * (1 - 0) + 0);
   if (pointer == 1) {
     let album = "https://api.discogs.com/masters/8895"; //SWANS
+    document.getElementById("album-cover").src =
+      "https://i.discogs.com/1kVMCE0M2vRuBUBxpcy5GTHY2cqECn2ur8VGk_jo5JY/rs:fit/g:sm/q:90/h:302/w:340/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyOTc5/Ny0xMTAzMTEzMDI3/LmpwZw.jpeg";
     return album;
   } else {
     let album = "https://api.discogs.com/masters/3239"; //QOTSA
+    document.getElementById("album-cover").src =
+      "https://i.discogs.com/RrY6_HSWVQPSyV_Y8Nylk7l8d8Fm-44FHIsZIhdGmgw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NDcx/My0xNTIwMjA4MTk1/LTUwMjEuanBlZw.jpeg";
     return album;
   }
 }
@@ -281,7 +285,6 @@ function displaySearchResults(results) {
         newResult.innerHTML = results.results[i].title;
         newResult.className = "search-result-li";
         newResult.title = results.results[i].title;
-        newResult.dataset.albumCover = results.results[i].thumb;
         eventListenerWrapper(results, newResult, i);
         parent.appendChild(newResult);
         break Check;
@@ -292,6 +295,7 @@ function displaySearchResults(results) {
 
 function eventListenerWrapper(results, child, key) {
   child.addEventListener("click", function () {
+    let coverArt = results.results[key].thumb;
     resetSearchResults();
     fetch(results.results[key].resource_url)
       .then((response) => {
@@ -306,7 +310,11 @@ function eventListenerWrapper(results, child, key) {
             let tempAlbum = getFilteredAlbum(results);
             console.log(results);
             console.log(tempAlbum);
-            checkForMatches(albumsGlobal[albumsGlobal.length - 1], tempAlbum);
+            checkForMatches(
+              albumsGlobal[albumsGlobal.length - 1],
+              tempAlbum,
+              coverArt
+            );
           })
           .catch((error) => {
             console.log("Search Step 2");
@@ -331,7 +339,7 @@ function resetSearchResults() {
 //COMPARISON CODE
 //MAIN FUNCTION:
 
-function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
+function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
   if (compareAlbumTitles(selectedSearchedAlbum)) {
     alert("This album has been used already!");
   } else {
@@ -361,7 +369,12 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum) {
       styles,
       year
     );
-    getMatchUsed(comparedData, infoGlobal.matches, selectedSearchedAlbum);
+    getMatchUsed(
+      comparedData,
+      infoGlobal.matches,
+      selectedSearchedAlbum,
+      coverArt
+    );
     filterComparisonMissesArrays(albumsGlobal);
     displayCurrentAlbum(selectedSearchedAlbum);
   }
@@ -477,7 +490,12 @@ function MatchedItems(artists, extraartists, labels, styles, year) {
 //need to include the check to see if a match is used more than three times here:
 //this is the ugly one this time:
 
-function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
+function getMatchUsed(
+  matchedItemsObject,
+  globalMatches,
+  fullAlbumData,
+  coverArt
+) {
   Loop: for (const property in matchedItemsObject) {
     let targetPropertyValue = matchedItemsObject[property];
     if (Array.isArray(targetPropertyValue)) {
@@ -494,6 +512,7 @@ function getMatchUsed(matchedItemsObject, globalMatches, fullAlbumData) {
             document.getElementById("timer").innerHTML = 30;
             document.getElementById("score-display").innerHTML =
               infoGlobal.connectionsMade;
+            document.getElementById("album-cover").src = coverArt;
             break Loop;
           } else {
             alert(
@@ -633,6 +652,7 @@ function gameOver() {
   document.getElementById("strike-image-1").style.display = "none";
   document.getElementById("strike-image-2").style.display = "none";
   document.getElementById("strike-image-3").style.display = "none";
+  resetSearchResults();
 }
 
 //Main game start function via button game start:
