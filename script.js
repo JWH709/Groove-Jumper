@@ -164,12 +164,6 @@ function mergeToContributingArtists(extra, tracklist) {
   return contributingArtists;
 }
 
-//After the "Miss" entries are removed, the duplicate aritsts occurances are removed:
-
-function killDuplicateTracklist(somewhatFilteredResults) {
-  for (i = 0; i < somewhatFilteredResults.length; i++) {}
-} //This does nothing as of right now, use it or lose it
-
 //Functions that will then use the constructors to build an object:
 
 function getFilteredAlbum(parsedJSON) {
@@ -210,10 +204,6 @@ function getFilteredAlbum(parsedJSON) {
     );
   }
 }
-
-//IMPORTANT: DO NOT PUSH TO GITHUB WITH AUTH TOKEN IN YOUR CODE. CHECK WITH SOMEONE BEFORE DOING THIS
-//Auth token + dummy search uri can be found in practice. Don't forget it, but don't leave it in when you push
-//Leave the token at the top, and delete it when you push
 
 //Search functions for Discogs database:
 
