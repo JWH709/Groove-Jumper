@@ -686,8 +686,10 @@ document
 function displayPastConnections() {
   let parent = document.getElementById("history-display");
   let newEntry = document.createElement("ul");
+  newEntry.className = "past-connection-album-title";
   newEntry.innerHTML = albumsGlobal[infoGlobal.connectionsMade].album;
   let entryLink = document.createElement("li");
+  entryLink.className = "past-connection-title";
   entryLink.innerHTML =
     "From " +
     albumsGlobal[infoGlobal.connectionsMade - 1].album +
@@ -695,6 +697,8 @@ function displayPastConnections() {
     infoGlobal.matches[infoGlobal.connectionsMade].type +
     ": " +
     connectionType();
+  newEntry.title = newEntry.innerHTML;
+  entryLink.title = entryLink.innerHTML;
   newEntry.appendChild(entryLink);
   parent.appendChild(newEntry);
 }

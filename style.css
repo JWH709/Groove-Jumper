@@ -83,6 +83,7 @@ body {
   height: 100px;
   width: 100px;
   border-radius: 50%;
+  box-shadow: 5px 5px 20px -2px black;
 }
 .strike-image {
   height: 20px;
@@ -216,4 +217,25 @@ align-items: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+/* CSS pretaining to the past connection section */
+
+#history-display {
+  border: 2px transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: 400px;
+  height: 600px;
+  overflow:auto;
+  overflow-x: hidden;
+  background-color: rgb(28, 28, 28);
+  box-shadow: 5px 5px 20px -2px black;
+}
+.past-connection-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
