@@ -16,19 +16,293 @@ let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
 //Code that determines the start point:
 
+//Album pool data:
+
+albumPools = [
+  (sunday = [
+    [
+      {
+        submittedBy: "Jack",
+        album: "Sountracks for the Blind",
+        url: "https://api.discogs.com/masters/8895",
+        albumCover:
+          "https://i.discogs.com/1kVMCE0M2vRuBUBxpcy5GTHY2cqECn2ur8VGk_jo5JY/rs:fit/g:sm/q:90/h:302/w:340/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyOTc5/Ny0xMTAzMTEzMDI3/LmpwZw.jpeg",
+      },
+      {
+        submittedBy: "Jack",
+        album: "Songs for the Deaf",
+        url: "https://api.discogs.com/masters/3239",
+        albumCover:
+          "https://i.discogs.com/RrY6_HSWVQPSyV_Y8Nylk7l8d8Fm-44FHIsZIhdGmgw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NDcx/My0xNTIwMjA4MTk1/LTUwMjEuanBlZw.jpeg",
+      },
+    ],
+    [
+      {
+        submittedBy: "Jack",
+        album: "Sea of Worry",
+        url: "https://api.discogs.com/masters/1629425",
+        albumCover:
+          "https://i.discogs.com/Jn_xrC0FW01j6LHZlD1KLFPUs5hvfM9tXD0rIOmH_dU/rs:fit/g:sm/q:90/h:532/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MzQ5/OTY1LTE1NzI4NDI5/NzMtNjExNi5qcGVn.jpeg",
+      },
+      {
+        submittedBy: "Jack",
+        album: "Sea of no Cares",
+        url: "https://api.discogs.com/masters/662989",
+        albumCover:
+          "https://i.discogs.com/wZtPZOu41RZN3mvtgU1Qd5xF2qDDH2w5ikzetDq5dZg/rs:fit/g:sm/q:90/h:572/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUyOTE2/NjYtMTY4NDIyNTE4/MS04OTIxLmpwZWc.jpeg",
+      },
+    ],
+  ]),
+  (monday = [
+    [
+      {
+        submittedBy: "Riley",
+        album: "Good Kid, Mad City",
+        url: "https://api.discogs.com/masters/484590",
+        albumCover:
+          "https://i.discogs.com/NlmkKrMlFUvKaaW5GUSKFRrMB1snZbF9Zx6_fMUsBtY/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NzU5/NTMtMTU3MDQwNDUz/Ni01NDY1LmpwZWc.jpeg",
+      },
+      {
+        submittedBy: "Riley",
+        album: "Kid A",
+        url: "https://api.discogs.com/masters/21501",
+        albumCover:
+          "https://i.discogs.com/_zg0Us0N_anqCz9hJvFGeRK2v69eDDCxQnHkd7RcgTk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0NzQz/LTE1NDg5MDI2NDMt/Mzg2OS5qcGVn.jpeg",
+      },
+    ],
+    [
+      {
+        submittedBy: "Riley",
+        album: "Big Fish Theory",
+        url: "https://api.discogs.com/masters/1200128",
+        albumCover:
+          "https://i.discogs.com/8jHRj4WwFg-SGF8VYq6FfzGa2pGWwflBA62gZShFrrM/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDU0/OTY4LTE1MDAwMzIx/NDMtNjQwNS5qcGVn.jpeg",
+      },
+      {
+        submittedBy: "Riley",
+        album: "Trout Mask Replica",
+        url: "https://api.discogs.com/masters/463963",
+        albumCover:
+          "https://i.discogs.com/CxeVQmJ2DM006onzI_oDbu0s0I7NCH61h8cRngPrwpE/rs:fit/g:sm/q:90/h:600/w:576/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NjU2/OTktMTYxMzk1MDg0/OC02NTQ4LmpwZWc.jpeg",
+      },
+    ],
+  ]),
+  (tuesday = [
+    [
+      {
+        submittedBy: "Braden",
+        album: "California",
+        url: "https://api.discogs.com/masters/1021870",
+        albumCover:
+          "https://i.discogs.com/vASPy_CtY4GSdD0Sth0InkqFbCg9-hzgceDRYOddL84/rs:fit/g:sm/q:90/h:542/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3MTMy/MzAtMTQ2NzE1MzU4/MC0zMTYzLmpwZWc.jpeg",
+      },
+      {
+        submittedBy: "Braden",
+        album: "Californiacation",
+        url: "https://api.discogs.com/masters/42546",
+        albumCover:
+          "https://i.discogs.com/CyHLgusU6vKUZ6AZbiWlLpgtKm2mT05k0NdV5LQvMjM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjY4/MDQtMTQ2MTI5MDIx/Ni03MDEwLmpwZWc.jpeg",
+      },
+    ],
+    [
+      {
+        submittedBy: "Ben",
+        album: "Ugly but Honest",
+        url: "https://api.discogs.com/masters/282690",
+        albumCover:
+          "https://i.discogs.com/mdIdk0myc4BpSwO4wRiLI5vTEJbvQRaGH7GMCWrWwio/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYzMDgx/My0xNjA0NzMxMTU3/LTU5NDkuanBlZw.jpeg",
+      },
+      {
+        submittedBy: "Ben",
+        album: "A Beautiful Lie",
+        url: "https://api.discogs.com/masters/95121",
+        albumCover:
+          "https://i.discogs.com/W032BPhXc4TF_63t04c81lsrnydZsZEpsNzwiwIpkhg/rs:fit/g:sm/q:90/h:523/w:562/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NzQx/NTctMTQ0MDAzNjU4/MS03Nzk0LmpwZWc.jpeg",
+      },
+    ],
+  ]),
+  (wednesday = [
+    [
+      {
+        submittedBy: "Liam",
+        album: "Marquee Moon",
+        url: "https://api.discogs.com/masters/6202",
+        albumCover:
+          "https://i.discogs.com/CRbZRWmZLpLIo0wKdsLJArcMd1NvHE8Qyyd1x22roSk/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3NjUz/MDQtMTQ2ODI5Mzk3/NS0zMTc0LmpwZWc.jpeg",
+      },
+      {
+        submittedBy: "Liam",
+        album: "...And Don't the Kids Just Love it",
+        url: "https://api.discogs.com/masters/42308",
+        albumCover:
+          "https://i.discogs.com/xR7qjW5ktNqjDwDCTjCC_30bRl7zgjZBeN_QspAmnMo/rs:fit/g:sm/q:90/h:600/w:594/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgxNzMx/OC0xMzM0NDIzMTc4/LmpwZWc.jpeg",
+      },
+    ],
+    [
+      {
+        submittedBy: "Liam",
+        album: "Pink Flag",
+        url: "https://api.discogs.com/masters/50645",
+        albumCover:
+          "https://i.discogs.com/cknT5IAagyDTJrkxbuC42GhV07djI_2Ca8kooTUF134/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMzM1/NC0xMzgxOTQ3MDg1/LTc4MTMuanBlZw.jpeg",
+      },
+      {
+        submittedBy: "Liam",
+        album: "Black Flag",
+        url: "https://api.discogs.com/masters/1404382",
+        albumCover:
+          "https://i.discogs.com/amuFgmvf17rrbrbLOhFM7xT8HYfcwPj6HHnsx753geE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2OTEy/MzQtMTQyODE2NTE2/OC01NjM3LmpwZWc.jpeg",
+      },
+    ],
+  ]),
+  (thursday = [
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+  ]),
+  (friday = [
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+  ]),
+  (saturday = [
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+    [
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+      {
+        submittedBy: "",
+        album: "",
+        url: "https://api.discogs.com/masters/",
+        albumCover: "",
+      },
+    ],
+  ]),
+];
+
+//Function for randomizing the album pool:
+
+function randomAlbumPool() {
+  let d = new Date();
+  let day = d.getDay();
+  let month = d.getMonth();
+  let poolUsed = undefined;
+  let pairUsed = undefined;
+  switch (day) {
+    case 0:
+      poolUsed = albumPools[0];
+      break;
+    case 1:
+      poolUsed = albumPools[1];
+      break;
+    case 2:
+      poolUsed = albumPools[2];
+      break;
+    case 3:
+      poolUsed = albumPools[3];
+      break;
+    case 4:
+      poolUsed = albumPools[4];
+      break;
+    case 5:
+      poolUsed = albumPools[5];
+      break;
+    case 6:
+      poolUsed = albumPools[6];
+      break;
+  }
+  switch (month) {
+    case 0:
+      pairUsed = 0;
+      break;
+    case 1:
+      pairUsed = 1;
+      break;
+    default:
+      pairUsed = 0;
+      break;
+  }
+  return poolUsed[pairUsed];
+}
+
 //I should make the album pool bigger, but before I do that I should get the app working from one of these two points
 
-function getRandomStartPointer() {
+function getRandomStartPointer(albumPair) {
   let pointer = Math.round(Math.random() * (1 - 0) + 0);
   if (pointer == 1) {
-    let album = "https://api.discogs.com/masters/8895"; //SWANS
-    document.getElementById("album-cover").src =
-      "https://i.discogs.com/1kVMCE0M2vRuBUBxpcy5GTHY2cqECn2ur8VGk_jo5JY/rs:fit/g:sm/q:90/h:302/w:340/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyOTc5/Ny0xMTAzMTEzMDI3/LmpwZw.jpeg";
+    let album = albumPair[0].url;
+    document.getElementById("album-cover").src = albumPair[0].albumCover;
     return album;
   } else {
-    let album = "https://api.discogs.com/masters/3239"; //QOTSA
-    document.getElementById("album-cover").src =
-      "https://i.discogs.com/RrY6_HSWVQPSyV_Y8Nylk7l8d8Fm-44FHIsZIhdGmgw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NDcx/My0xNTIwMjA4MTk1/LTUwMjEuanBlZw.jpeg";
+    let album = albumPair[1].url;
+    document.getElementById("album-cover").src = albumPair[1].albumCover;
     return album;
   }
 }
@@ -660,7 +934,8 @@ function gameOver() {
 document
   .getElementById("button-game-start")
   .addEventListener("click", function () {
-    fetch(getRandomStartPointer())
+    let albumPair = randomAlbumPool();
+    fetch(getRandomStartPointer(albumPair))
       .then((response) => {
         return response.json();
       })
