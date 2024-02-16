@@ -344,15 +344,23 @@ function displayCurrentAlbum() {
         infoGlobal.matches[albumsGlobal.length - 1].data[0]?.name == undefined
       ) {
         match = infoGlobal.matches[albumsGlobal.length - 1].data[0];
-        connectionName.innerHTML = matchType + ": " + match;
+        connectionName.innerHTML = fixExtraArtists(matchType) + ": " + match;
       } else {
         match = infoGlobal.matches[albumsGlobal.length - 1].data[0].name;
-        connectionName.innerHTML = matchType + ": " + match;
+        connectionName.innerHTML = fixExtraArtists(matchType) + ": " + match;
       }
     } else {
       match = infoGlobal.matches[albumsGlobal.length - 1].data;
-      connectionName.innerHTML = matchType + ": " + match;
+      connectionName.innerHTML = fixExtraArtists(matchType) + ": " + match;
     }
+  }
+}
+
+function fixExtraArtists(type) {
+  if (type == "extraartists") {
+    return "Collaborator";
+  } else {
+    return type;
   }
 }
 
@@ -973,7 +981,7 @@ function displayPastConnections() {
     "From " +
     albumsGlobal[infoGlobal.connectionsMade - 1].album +
     " via " +
-    infoGlobal.matches[infoGlobal.connectionsMade].type +
+    fixExtraArtists(infoGlobal.matches[infoGlobal.connectionsMade].type) +
     ": " +
     connectionType();
   newEntry.title = newEntry.innerHTML;

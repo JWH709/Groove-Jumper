@@ -144,6 +144,10 @@ body {
   flex-direction: column;
   align-items: center;
 }
+#search-bar-wrapper {
+  display: flex;
+  flex-direction: row;
+}
 .search-bars {
   width: 150px;
   height: 30px;
@@ -194,7 +198,7 @@ transition-duration: 0.4s;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  width: 400px;
+  width: 350px;
   height: 600px;
   overflow:auto;
   overflow-x: hidden;
@@ -205,6 +209,9 @@ transition-duration: 0.4s;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.past-connection-album-title {
+  margin-top: 8%;
 }
 
 
