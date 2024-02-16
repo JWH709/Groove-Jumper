@@ -9,11 +9,12 @@ body {
   align-items: center;
   flex-basis: auto;
 }
+
 .side-tabs {
   background-color: rgb(38, 11, 49);
   border: 5px solid rgb(38, 11, 49);
   box-shadow: 5px 5px 20px -2px black;
-  border-radius: 7%;
+  border-radius: 50px;
   width: 33%;
   height: 900px;
   display: flex;
@@ -22,6 +23,14 @@ body {
   align-items: center;
   padding: 10px;
   margin: 1%;
+}
+.explanation{ 
+  padding: 3%;
+  margin: 3%;
+}
+#example {
+  width: auto;
+  height: auto;
 }
 
 /* CSS pretaining to the main tab */
@@ -177,48 +186,6 @@ transition-duration: 0.4s;
   background-color: rgb(28, 28, 28);
 }
 
-/* CSS pretaining to the example section */
-
-.record-image {
-  height: 150px;
-  width: 150px;
-  border: 5px transparent;
-  border-radius: 50%;
-  box-shadow: 5px 5px 20px -2px black;
-  box-shadow: inset;
-}
-.line {
-  width: 35px;
-  height: 5px;
-  background-color: black;
-}
-#example {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-}
-#link-example {
-  border: 5px solid black;
-  height: 25px;
-  margin: 0%;
-  border-radius: 15px;
-  padding: 10px;
-  background-color: rgb(8, 8, 8);
-}
-.example-image-wrapper {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-}
-#link-example-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 /* CSS pretaining to the past connection section */
 
 #history-display {
@@ -238,4 +205,25 @@ align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page {
+    flex-direction: column;
+  }
+  .side-tabs {
+    width: 90%;
+  }
+  #example {
+    width: 90%;
+    height: 80%;
+  }
+  #button-game-start {
+    width: 400px;
+    margin: 100px;
+  }
+  #center-tab {
+    height: auto;
+  }
 }

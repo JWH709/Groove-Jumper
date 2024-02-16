@@ -188,30 +188,34 @@ albumPools = [
   (friday = [
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Riley",
+        album: "Scream, Aim, Fire",
+        url: "https://api.discogs.com/masters/232474",
+        albumCover:
+          "https://i.discogs.com/rA_DqS8BQ_-4kUTRvDIc0tMi4q1BGB4O7etjNGI7SDM/rs:fit/g:sm/q:90/h:366/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNzIw/MTktMTI4NDU1MzM0/MS5qcGVn.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Riley",
+        album: "Loveless",
+        url: "https://api.discogs.com/masters/5948",
+        albumCover:
+          "https://i.discogs.com/BX3VaGJBENv-zgHEdez23DDFIVQlaSWGgdr_8hG6dWA/rs:fit/g:sm/q:90/h:280/w:280/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzYy/Mi0xMjUwMjA4Njc5/LmpwZWc.jpeg",
       },
     ],
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Liam",
+        album: "Closer",
+        url: "https://api.discogs.com/masters/4734",
+        albumCover:
+          "https://i.discogs.com/8po40WH3m-4TGoKrTQlj2QuT3_1hm7wCQQQkRLMJQUs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgxNjky/LTE1Mzg5OTI1MzEt/NzU1MS5qcGVn.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Liam",
+        album: "So Far",
+        url: "https://api.discogs.com/masters/65172",
+        albumCover:
+          "https://i.discogs.com/zu3S9m_KvmP1Yjl9deY_q1x18C7BX9cIz12CDrFJsaM/rs:fit/g:sm/q:90/h:600/w:588/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0MDc5/NDItMTU0MTcyOTgz/Mi04OTgwLmpwZWc.jpeg",
       },
     ],
   ]),
