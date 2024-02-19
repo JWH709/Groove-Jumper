@@ -1,19 +1,6 @@
 //TOKEN:
 let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
-//02/05/2024: Wrapping this in a function & attaching it to the start game button
-
-// fetch(getRandomStartPointer())
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((jsonObj) => {
-//     getMainRelease(jsonObj);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
 //Code that determines the start point:
 
 //Album pool data:
@@ -158,30 +145,33 @@ albumPools = [
   (thursday = [
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Jordan",
+        album: "Finally Rich",
+        url: "https://api.discogs.com/masters/701431",
+        albumCover:
+          "https://i.discogs.com/G0McalaLCoaz5ggjW5lLAZoroiNuK9wewZBV5m0gXJA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMzQ5/ODI1LTE2Mzk1MDMy/OTAtOTA4MS5qcGVn.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
+        submittedBy: "Jordan",
+        album: "Lifestylez Ov Da Poor & Dangerous",
+        url: "https://api.discogs.com/masters/53775",
         albumCover: "",
       },
     ],
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Jordan",
+        album: "Dogs On Acid",
+        url: "https://api.discogs.com/masters/901897",
+        albumCover:
+          "https://i.discogs.com/lmeBySeMmv4GdnUsxzsDupMu3bW-DosGYRhfhEm-bGc/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0MzQ1/NzYtMTQ0MTQ1NTA5/Ni0zNDc4LmpwZWc.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "Jordan",
+        album: "Cats Under The Stars",
+        url: "https://api.discogs.com/masters/344520",
+        albumCover:
+          "https://i.discogs.com/ZHww7n31Sxt1_aQd1eMWTZ1vd5zVuH6n3IoZ7kb0hvk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU0NzMy/MDMtMTM5NjU0MzQ0/Ny05NzgwLmpwZWc.jpeg",
       },
     ],
   ]),
@@ -204,48 +194,52 @@ albumPools = [
     ],
     [
       {
-        submittedBy: "Liam",
-        album: "Closer",
-        url: "https://api.discogs.com/masters/4734",
+        submittedBy: "Nick",
+        album: "Tree Of Tongues",
+        url: "https://api.discogs.com/masters/3970280",
         albumCover:
-          "https://i.discogs.com/8po40WH3m-4TGoKrTQlj2QuT3_1hm7wCQQQkRLMJQUs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgxNjky/LTE1Mzg5OTI1MzEt/NzU1MS5qcGVn.jpeg",
+          "https://i.discogs.com/JBGv5PVE-_IK5c_0eNhqe3Qa9bKUTB49MtbNTL2asNg/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NzAy/ODAtMTM1MDkzNDUy/Mi0zMDE1LmpwZWc.jpeg",
       },
       {
-        submittedBy: "Liam",
-        album: "So Far",
-        url: "https://api.discogs.com/masters/65172",
+        submittedBy: "Nick",
+        album: "Tiger And The Duke",
+        url: "https://api.discogs.com/masters/196585",
         albumCover:
-          "https://i.discogs.com/zu3S9m_KvmP1Yjl9deY_q1x18C7BX9cIz12CDrFJsaM/rs:fit/g:sm/q:90/h:600/w:588/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0MDc5/NDItMTU0MTcyOTgz/Mi04OTgwLmpwZWc.jpeg",
+          "https://i.discogs.com/5qU9CrBC6PdGHReHzG4p4eYcFO3wOMqd95a-alSDYRU/rs:fit/g:sm/q:90/h:530/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNTkx/MzktMTU1NDMxMTkx/Mi0zOTU0LmpwZWc.jpeg",
       },
     ],
   ]),
   (saturday = [
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "James",
+        album: "Triangle",
+        url: "https://api.discogs.com/masters/150447",
+        albumCover:
+          "https://i.discogs.com/HhxmJIAjinJzKVa7fA95Ahfwd9nCfoDUb4_JTqY9RHI/rs:fit/g:sm/q:90/h:587/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4NDI1/ODMtMTI0NzE5NDMz/OS5qcGVn.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "James",
+        album: "Circles",
+        url: "https://api.discogs.com/masters/1669934",
+        albumCover:
+          "https://i.discogs.com/-Cq1NLkCM-inLcEhOEQTBdY1Sgvg3QkC2-kU_STKDFA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMDI4/MTQ3LTE2MzcyNDMw/MjEtNTkxMC5qcGVn.jpeg",
       },
     ],
     [
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "James",
+        album: "Frances the Mute",
+        url: "https://api.discogs.com/masters/9161",
+        albumCover:
+          "https://i.discogs.com/T_GoAoUfYEmMeCnWT8QriZQV5faHsz41sKdzZIlHVQk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2MzMz/Ni0xNTUyNTI2NDQ0/LTc0NzEuanBlZw.jpeg",
       },
       {
-        submittedBy: "",
-        album: "",
-        url: "https://api.discogs.com/masters/",
-        albumCover: "",
+        submittedBy: "James",
+        album: "Speaking in Toungues",
+        url: "https://api.discogs.com/masters/39336",
+        albumCover:
+          "https://i.discogs.com/w3G0LxzwepwIgx7NkozV23OhlQ3j0XZ3WsvHPH6J1DQ/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3MDcx/OS0xNDM3NDU0NzA4/LTQ4OTQuanBlZw.jpeg",
       },
     ],
   ]),
@@ -256,7 +250,7 @@ albumPools = [
 function randomAlbumPool() {
   let d = new Date();
   let day = d.getDay();
-  let month = d.getMonth();
+  let date = d.getUTCDate();
   let poolUsed = undefined;
   let pairUsed = undefined;
   switch (day) {
@@ -282,16 +276,10 @@ function randomAlbumPool() {
       poolUsed = albumPools[6];
       break;
   }
-  switch (month) {
-    case 0:
-      pairUsed = 0;
-      break;
-    case 1:
-      pairUsed = 1;
-      break;
-    default:
-      pairUsed = 0;
-      break;
+  if (date > 15) {
+    pairUsed = 1;
+  } else {
+    pairUsed = 0;
   }
   return poolUsed[pairUsed];
 }
