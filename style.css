@@ -29,8 +29,9 @@ body {
   margin: 3%;
 }
 #example {
-  width: auto;
-  height: auto;
+max-width: 100%;
+max-height: 100%;
+object-fit: contain
 }
 
 /* CSS pretaining to the main tab */
@@ -221,10 +222,6 @@ transition-duration: 0.4s;
   }
   .side-tabs {
     width: 90%;
-  }
-  #example {
-    width: 90%;
-    height: 80%;
   }
   #button-game-start {
     width: 400px;

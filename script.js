@@ -306,10 +306,10 @@ function getMainRelease(results) {
       return response.json();
     })
     .then((results) => {
-      console.log(results);
+      // console.log(results); - Check your results at the start
       getFilteredAlbum(results);
       displayCurrentAlbum(albumsGlobal);
-      console.log(albumsGlobal);
+      // console.log(albumsGlobal); - Make sure it was added to albumsGlobal correctly
     })
     .catch((error) => {
       console.log(error);
@@ -536,7 +536,7 @@ function searchAlbumAndArtist() {
         return response.json();
       })
       .then((results) => {
-        console.log(results);
+        // console.log(results); check to see if results were returned correctly
         displaySearchResults(results);
       });
   }
@@ -582,8 +582,8 @@ function eventListenerWrapper(results, child, key) {
           })
           .then((results) => {
             let tempAlbum = getFilteredAlbum(results);
-            console.log(results);
-            console.log(tempAlbum);
+            // console.log(results);
+            // console.log(tempAlbum);
             checkForMatches(
               albumsGlobal[albumsGlobal.length - 1],
               tempAlbum,
@@ -777,7 +777,6 @@ function getMatchUsed(
         if (targetPropertyValue[i] != undefined) {
           let newMatch = new MatchUsed(property, targetPropertyValue[i]);
           let permission = isMatchBlocked(globalMatches, newMatch);
-          console.log(permission); //delete
           if (permission == true) {
             infoGlobal.matches.push(newMatch);
             albumsGlobal.push(fullAlbumData);
@@ -805,7 +804,6 @@ function getMatchUsed(
       } else {
         let newMatch = new MatchUsed(property, targetPropertyValue);
         let permission = isMatchBlocked(globalMatches, newMatch);
-        console.log(permission); //delete
         if (permission == true) {
           infoGlobal.matches.push(newMatch);
           albumsGlobal.push(fullAlbumData);
