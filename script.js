@@ -615,7 +615,12 @@ function resetSearchResults() {
 
 function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
   if (compareAlbumTitles(selectedSearchedAlbum)) {
-    alert("This album has been used already!");
+    let textAlert = document.getElementById("failed-match-text");
+    textAlert.innerHTML = "Album already used!";
+    textAlert.style.display = "flex";
+    setTimeout(() => {
+      document.getElementById("failed-match-text").style.display = "none";
+    }, 5000);
   } else {
     let aritsts = filterComparisonMissesArrays(
       compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
@@ -788,12 +793,17 @@ function getMatchUsed(
             document.getElementById("album-cover").src = coverArt;
             break Loop;
           } else {
-            alert(
+            let textAlert = document.getElementById("failed-match-text");
+            textAlert.innerHTML =
               newMatch.type +
-                ": " +
-                newMatch.data[0].name +
-                " has already been used 3 times!"
-            );
+              ": " +
+              newMatch.data[0].name +
+              " has already been used 3 times!";
+            textAlert.style.display = "flex";
+            setTimeout(() => {
+              document.getElementById("failed-match-text").style.display =
+                "none";
+            }, 5000);
             break Loop;
           }
         }
@@ -814,12 +824,16 @@ function getMatchUsed(
             infoGlobal.connectionsMade;
           break Loop;
         } else {
-          alert(
+          let textAlert = document.getElementById("failed-match-text");
+          textAlert.innerHTML =
             newMatch.type +
-              ": " +
-              newMatch.data.name +
-              " has already been used 3 times!"
-          );
+            ": " +
+            newMatch.data[0].name +
+            " has already been used 3 times!";
+          textAlert.style.display = "flex";
+          setTimeout(() => {
+            document.getElementById("failed-match-text").style.display = "none";
+          }, 5000);
           break Loop;
         }
       }

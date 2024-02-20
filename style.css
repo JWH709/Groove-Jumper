@@ -214,8 +214,10 @@ transition-duration: 0.4s;
 .past-connection-album-title {
   margin-top: 8%;
 }
-
-
+#failed-match-text {
+  display: none;
+  color: red;
+}
 @media only screen and (max-width: 600px) {
   #main-page {
     flex-direction: column;
