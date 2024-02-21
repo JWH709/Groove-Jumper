@@ -1,8 +1,6 @@
 //TOKEN:
 let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
-//Code that determines the start point:
-
 //Album pool data:
 
 albumPools = [
