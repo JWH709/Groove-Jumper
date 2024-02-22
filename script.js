@@ -653,16 +653,19 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
 }
 
 function failedMatchInUseAlert() {
-  let lastConnectionInfo = "";
-  let lastConnection = document.getElementById("last-connection");
-  lastConnectionInfo = lastConnection.innerHTML;
-  lastConnection.innerHTML = "Album already used!";
-  lastConnection.style.color = "red";
-  setTimeout((lastConnectionInfo) => {
-    let revertElement = document.getElementById("last-connection");
-    revertElement.style.color = "aliceblue";
-    revertElement.innerHTML = lastConnectionInfo;
-  }, 5000);
+  let errorElement = document.getElementById("error-message");
+  let connectionInfoElement = document.getElementById("last-connection");
+  let titleElement = connectionInfoElement.previousElementSibling;
+  connectionInfoElement.style.display = "none";
+  titleElement.style.display = "none";
+  errorElement.innerHTML = "Album has already been used!";
+  errorElement.style.display = "inline";
+  setTimeout(() => {
+    connectionInfoElement.style.display = "inline";
+    titleElement.style.display = "inline";
+    errorElement.style.display = "none";
+    errorElement.innerHTML = "Album has already been used!";
+  }, 3000);
 }
 
 //The function for rejecting an album if it's the same as the one being compared against:
@@ -799,7 +802,7 @@ function getMatchUsed(
             document.getElementById("album-cover").src = coverArt;
             break Loop;
           } else {
-            failedMatchTooManyAlert();
+            failedMatchTooManyAlert(newMatch);
             break Loop;
           }
         }
@@ -820,7 +823,7 @@ function getMatchUsed(
             infoGlobal.connectionsMade;
           break Loop;
         } else {
-          failedMatchTooManyAlert();
+          failedMatchTooManyAlert(newMatch);
           break Loop;
         }
       }
@@ -828,27 +831,36 @@ function getMatchUsed(
   }
 }
 
-function failedMatchTooManyAlert() {
-  let lastConnectionInfo = "";
-  let lastConnection = document.getElementById("last-connection");
-  lastConnectionInfo = lastConnection.innerHTML;
-  lastConnection.innerHTML =
-    "The attempted connection has already been used 3 times!";
-  lastConnection.style.color = "red";
-  setTimeout(() => {}, 5000);
-  lastConnection.innerHTML = lastConnectionInfo;
+function failedMatchTooManyAlert(match) {
+  let errorElement = document.getElementById("error-message");
+  let connectionInfoElement = document.getElementById("last-connection");
+  let titleElement = connectionInfoElement.previousElementSibling;
+  connectionInfoElement.style.display = "none";
+  titleElement.style.display = "none";
+  errorElement.innerHTML =
+    match.type + ": " + match.data[0].name + " has already been used 3 times!";
+  errorElement.style.display = "inline";
+  setTimeout(() => {
+    connectionInfoElement.style.display = "inline";
+    titleElement.style.display = "inline";
+    errorElement.style.display = "none";
+    errorElement.innerHTML = "";
+  }, 3000);
 }
 function failedMatchNoMatchesAlert() {
-  let lastConnectionInfo = "";
-  let lastConnection = document.getElementById("last-connection");
-  lastConnectionInfo = lastConnection.innerHTML;
-  lastConnection.innerHTML = "No Matches Found!";
-  lastConnection.style.color = "red";
-  setTimeout((lastConnectionInfo) => {
-    let revertElement = document.getElementById("last-connection");
-    revertElement.style.color = "aliceblue";
-    revertElement.innerHTML = lastConnectionInfo;
-  }, 5000);
+  let errorElement = document.getElementById("error-message");
+  let connectionInfoElement = document.getElementById("last-connection");
+  let titleElement = connectionInfoElement.previousElementSibling;
+  connectionInfoElement.style.display = "none";
+  titleElement.style.display = "none";
+  errorElement.innerHTML = "No Matches found!";
+  errorElement.style.display = "inline";
+  setTimeout(() => {
+    connectionInfoElement.style.display = "inline";
+    titleElement.style.display = "inline";
+    errorElement.style.display = "none";
+    errorElement.innerHTML = "";
+  }, 3000);
 }
 
 function MatchUsed(type, data) {

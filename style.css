@@ -205,7 +205,7 @@ margin-left: -20px;
 .past-connection-album-title {
   margin-top: 8%;
 }
-#failed-match-text {
+#error-message{
   display: none;
   color: red;
 }
@@ -215,6 +215,7 @@ margin-left: -20px;
   }
   #right-tab, #left-tab {
     width: auto;
+    height: auto;
   }
   #button-game-start {
     margin-top: 50px;
