@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groove Jumper</title>
     <link rel="icon" type="image/x-icon" href="./images/favicon-16x16.png" />
-    <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div id="main-page">
-      <div id="left-tab" class="side-tabs">
+    <div id="main-page" class="row">
+      <div id="left-tab" class="col text-center">
         <h2>How To Play</h2>
         <p class="explanation">
           Groove jumper is a musical trivia game based on making connections
@@ -42,7 +48,7 @@
           <i>Songs for the Deaf</i>.
         </p>
       </div>
-      <div id="center-tab">
+      <div id="center-tab" class="col text-center">
         <button id="button-game-start">Start</button>
         <div id="wrapper-hide-on-start">
           <h2 id="failed-match-text">Hello!</h2>
@@ -52,31 +58,34 @@
               <h4 id="last-connection-album-title"></h4>
               <img src="" alt="Current Album" id="album-cover" />
               <h5 id="last-connection-artist"></h5>
-              <div id="strike-system-container">
-                <h6 id="last-connection"></h6>
-                <div id="strikes-wrapper">
-                  <img
-                    src="./images/delete.png"
-                    alt=""
-                    id="strike-image-1"
-                    class="strike-image"
-                  />
-                  <img
-                    src="./images/delete.png"
-                    alt=""
-                    id="strike-image-2"
-                    class="strike-image"
-                  />
-                  <img
-                    src="./images/delete.png"
-                    alt=""
-                    id="strike-image-3"
-                    class="strike-image"
-                  />
-                </div>
-              </div>
             </div>
             <div class="other-albums"></div>
+          </div>
+          <div id="strike-system-container">
+            <div id="strikes-wrapper">
+              <img
+                src="./images/delete.png"
+                alt=""
+                id="strike-image-1"
+                class="strike-image"
+              />
+              <img
+                src="./images/delete.png"
+                alt=""
+                id="strike-image-2"
+                class="strike-image"
+              />
+              <img
+                src="./images/delete.png"
+                alt=""
+                id="strike-image-3"
+                class="strike-image"
+              />
+            </div>
+          </div>
+          <div id="connection-box">
+            <h6><b>Last Connection:</b></h6>
+            <h6 id="last-connection"></h6>
           </div>
           <div id="timer-container">
             <h4 id="timer">30</h4>
@@ -100,12 +109,12 @@
               />
             </div>
             <div id="search-result-box">
-              <ul id="search-results-ul"></ul>
+              <ul id="search-results-ul" class="overflow-auto"></ul>
             </div>
           </div>
         </div>
       </div>
-      <div id="right-tab" class="side-tabs">
+      <div id="right-tab" class="col text-center">
         <div id="score-display-box">
           <h2>Streak:</h2>
           <h2 id="score-display">0</h2>

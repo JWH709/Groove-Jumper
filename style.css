@@ -3,35 +3,14 @@ body {
   color: aliceblue;
   background-color: rgb(8, 8, 8);
 }
-#main-page {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-basis: auto;
-}
-
-.side-tabs {
-  background-color: rgb(38, 11, 49);
-  border: 5px solid rgb(38, 11, 49);
-  box-shadow: 5px 5px 20px -2px black;
-  border-radius: 50px;
-  width: 33%;
-  height: 900px;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  margin: 1%;
-}
 .explanation{ 
   padding: 3%;
   margin: 3%;
 }
 #example {
-max-width: 100%;
-max-height: 100%;
-object-fit: contain
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain
 }
 
 /* CSS pretaining to the main tab */
@@ -39,44 +18,19 @@ object-fit: contain
 #wrapper-hide-on-start {
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content:space-between;
   align-items: center;
 }
 
-#blank-div {
-  height: 150px;
-  width: 150px;
-  border-radius: 100px;
-}
-#record-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  border: 1px solid rgb(50, 50, 50);
-  border-radius: 15px;
-  height: 300px;
-  width: 500px;
-  align-items: center;
-}
 #center-tab {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  padding: 10px;
+  margin: 1%;
 }
-#score-display-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#previous-record-image {
-  height: 75px;
-  width: 75px;
-  border: 5px transparent;
-  border-radius: 50px;
-}
+
 #last-connection-container {
   display: flex;
   flex-direction: column;
@@ -111,6 +65,23 @@ object-fit: contain
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  border: rgb(83, 13, 13) solid 2px;
+  width: 100px;
+  height: 24px;
+  background-color: rgb(83, 13, 13);
+  border-radius: 5px;
+  margin-top: 0px;
+}
+#connection-box{
+  border: rgb(28, 28, 28) 2px solid;
+  background-color: rgb(28, 28, 28);
+  width: 250px;
+  height: 74px;
+  border-radius: 15px;
+  margin: 10px;
+}
+#timer-container{
+  margin-bottom: 10px;
 }
 #last-connection {
   margin: 0px;
@@ -138,7 +109,6 @@ object-fit: contain
   cursor: pointer;
 }
 #search-bar-container {
-  /* border: 2px salmon solid; */
   width: 325px;
   height: 500px;
   display: flex;
@@ -162,7 +132,6 @@ object-fit: contain
 #search-results-ul {
   height: 400px;
   width: 325px;
-  /* border:1px solid #ccc; */
   overflow:auto;
   overflow-x: hidden;
 }
@@ -179,18 +148,39 @@ object-fit: contain
   border-radius: 10px;
 }
 .search-result-li {
-width: 350px;
+width: 300px;
 height: 30px;
-overflow: hidden;
+overflow-x: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
 transition-duration: 0.4s;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+margin-left: -20px;
 }
 .search-result-li:hover {
   cursor: pointer;
   background-color: rgb(28, 28, 28);
 }
-
+#right-tab, #left-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(38, 11, 49);
+  border: 5px solid rgb(38, 11, 49);
+  box-shadow: 5px 5px 20px -2px black;
+  border-radius: 50px;
+  margin: 1%;
+  width: 32%;
+}
+#score-display-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 /* CSS pretaining to the past connection section */
 
 #history-display {
@@ -210,6 +200,7 @@ transition-duration: 0.4s;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: inline;
 }
 .past-connection-album-title {
   margin-top: 8%;
@@ -222,14 +213,11 @@ transition-duration: 0.4s;
   #main-page {
     flex-direction: column;
   }
-  .side-tabs {
-    width: 90%;
+  #right-tab, #left-tab {
+    width: auto;
   }
   #button-game-start {
-    width: 400px;
-    margin: 100px;
-  }
-  #center-tab {
-    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
   }
 }

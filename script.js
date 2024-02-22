@@ -519,7 +519,7 @@ function searchAlbumAndArtist() {
   } else {
     artistValueCheck = "artist=" + searchBarArtistInput.value + "&";
   }
-  let formats = ["Album", "EP"];
+  let formats = ["Album", "EP"]; //Snowing still doesn't work, needs "Vinyl", maybe check to see if album can be replaed with Vinyl???
   let currentFormat = "";
   for (i = 0; i < formats.length; i++) {
     currentFormat = "format=" + formats[i] + "&";
@@ -613,12 +613,7 @@ function resetSearchResults() {
 
 function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
   if (compareAlbumTitles(selectedSearchedAlbum)) {
-    let textAlert = document.getElementById("failed-match-text");
-    textAlert.innerHTML = "Album already used!";
-    textAlert.style.display = "flex";
-    setTimeout(() => {
-      document.getElementById("failed-match-text").style.display = "none";
-    }, 5000);
+    failedMatchInUseAlert();
   } else {
     let aritsts = filterComparisonMissesArrays(
       compareArExLa(currentGlobalAlbum.artists, selectedSearchedAlbum.artists)
@@ -655,6 +650,19 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
     filterComparisonMissesArrays(albumsGlobal);
     displayCurrentAlbum(selectedSearchedAlbum);
   }
+}
+
+function failedMatchInUseAlert() {
+  let lastConnectionInfo = "";
+  let lastConnection = document.getElementById("last-connection");
+  lastConnectionInfo = lastConnection.innerHTML;
+  lastConnection.innerHTML = "Album already used!";
+  lastConnection.style.color = "red";
+  setTimeout((lastConnectionInfo) => {
+    let revertElement = document.getElementById("last-connection");
+    revertElement.style.color = "aliceblue";
+    revertElement.innerHTML = lastConnectionInfo;
+  }, 5000);
 }
 
 //The function for rejecting an album if it's the same as the one being compared against:
@@ -791,24 +799,14 @@ function getMatchUsed(
             document.getElementById("album-cover").src = coverArt;
             break Loop;
           } else {
-            let textAlert = document.getElementById("failed-match-text");
-            textAlert.innerHTML =
-              newMatch.type +
-              ": " +
-              newMatch.data[0].name +
-              " has already been used 3 times!";
-            textAlert.style.display = "flex";
-            setTimeout(() => {
-              document.getElementById("failed-match-text").style.display =
-                "none";
-            }, 5000);
+            failedMatchTooManyAlert();
             break Loop;
           }
         }
       }
     } else {
       if (targetPropertyValue == undefined) {
-        alert("No Matches Found!");
+        failedMatchNoMatchesAlert();
       } else {
         let newMatch = new MatchUsed(property, targetPropertyValue);
         let permission = isMatchBlocked(globalMatches, newMatch);
@@ -822,21 +820,35 @@ function getMatchUsed(
             infoGlobal.connectionsMade;
           break Loop;
         } else {
-          let textAlert = document.getElementById("failed-match-text");
-          textAlert.innerHTML =
-            newMatch.type +
-            ": " +
-            newMatch.data[0].name +
-            " has already been used 3 times!";
-          textAlert.style.display = "flex";
-          setTimeout(() => {
-            document.getElementById("failed-match-text").style.display = "none";
-          }, 5000);
+          failedMatchTooManyAlert();
           break Loop;
         }
       }
     }
   }
+}
+
+function failedMatchTooManyAlert() {
+  let lastConnectionInfo = "";
+  let lastConnection = document.getElementById("last-connection");
+  lastConnectionInfo = lastConnection.innerHTML;
+  lastConnection.innerHTML =
+    "The attempted connection has already been used 3 times!";
+  lastConnection.style.color = "red";
+  setTimeout(() => {}, 5000);
+  lastConnection.innerHTML = lastConnectionInfo;
+}
+function failedMatchNoMatchesAlert() {
+  let lastConnectionInfo = "";
+  let lastConnection = document.getElementById("last-connection");
+  lastConnectionInfo = lastConnection.innerHTML;
+  lastConnection.innerHTML = "No Matches Found!";
+  lastConnection.style.color = "red";
+  setTimeout((lastConnectionInfo) => {
+    let revertElement = document.getElementById("last-connection");
+    revertElement.style.color = "aliceblue";
+    revertElement.innerHTML = lastConnectionInfo;
+  }, 5000);
 }
 
 function MatchUsed(type, data) {
