@@ -189,8 +189,8 @@ margin-left: -20px;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  width: 350px;
-  height: 600px;
+  width: 80%;
+  height: 60%;
   overflow:auto;
   overflow-x: hidden;
   background-color: rgb(28, 28, 28);
@@ -203,7 +203,12 @@ margin-left: -20px;
   display: inline;
 }
 .past-connection-album-title {
-  margin-top: 8%;
+  margin-top: 4%;
+  margin-left: -10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
 }
 #error-message{
   display: none;
