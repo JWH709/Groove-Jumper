@@ -1,4 +1,5 @@
 //TOKEN:
+
 let personalAccessToken = "QclYwHOWDnQzeGlmzPcvVVjXcjjxQTckcCIoxQOT";
 
 //Album pool data:
@@ -311,7 +312,19 @@ function getMainRelease(results) {
     })
     .catch((error) => {
       console.log(error);
+      let errorKey = toString(error);
+      errorMessages(errorKey.length);
     });
+}
+
+//Add function for determining DB side errors:
+
+function errorMessages(error) {
+  if (error == 18) {
+    alert("Album Entry not found in Database! Try a different entry.");
+  } else {
+    alert("Too many searches! Please wait a moment");
+  }
 }
 
 //Edit the page to display the start album information:
@@ -536,6 +549,10 @@ function searchAlbumAndArtist() {
       .then((results) => {
         // console.log(results); check to see if results were returned correctly
         displaySearchResults(results);
+      })
+      .catch((error) => {
+        console.log(error);
+        errorMessages(error);
       });
   }
 }
@@ -580,7 +597,7 @@ function eventListenerWrapper(results, child, key) {
           })
           .then((results) => {
             let tempAlbum = getFilteredAlbum(results);
-            // console.log(results);
+            console.log(results);
             // console.log(tempAlbum);
             checkForMatches(
               albumsGlobal[albumsGlobal.length - 1],
