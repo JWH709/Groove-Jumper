@@ -500,6 +500,7 @@ function getFilteredAlbum(parsedJSON) {
 
 const searchBarAlbumInput = document.getElementById("search-input-album");
 const searchBarArtistInput = document.getElementById("search-input-artist");
+const searchBarSearchButton = document.getElementById("search-button");
 
 searchBarAlbumInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
@@ -517,6 +518,12 @@ searchBarArtistInput.addEventListener("keydown", function (e) {
     document.getElementById("search-input-artist").value = "";
   }
 });
+searchBarSearchButton.addEventListener('click', function () {
+  resetSearchResults();
+  searchAlbumAndArtist();
+  document.getElementById("search-input-album").value = "";
+  document.getElementById("search-input-artist").value = ""; 
+})
 
 //function for searching:
 
