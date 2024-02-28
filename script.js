@@ -508,6 +508,7 @@ searchBarAlbumInput.addEventListener("keydown", function (e) {
     searchAlbumAndArtist();
     document.getElementById("search-input-album").value = "";
     document.getElementById("search-input-artist").value = "";
+    this.blur();
   }
 });
 searchBarArtistInput.addEventListener("keydown", function (e) {
@@ -516,14 +517,15 @@ searchBarArtistInput.addEventListener("keydown", function (e) {
     searchAlbumAndArtist();
     document.getElementById("search-input-album").value = "";
     document.getElementById("search-input-artist").value = "";
+    this.blur();
   }
 });
-searchBarSearchButton.addEventListener('click', function () {
+searchBarSearchButton.addEventListener("click", function () {
   resetSearchResults();
   searchAlbumAndArtist();
   document.getElementById("search-input-album").value = "";
-  document.getElementById("search-input-artist").value = ""; 
-})
+  document.getElementById("search-input-artist").value = "";
+});
 
 //function for searching:
 
@@ -562,6 +564,7 @@ function searchAlbumAndArtist() {
         errorMessages(error);
       });
   }
+  listNavNumber = undefined;
 }
 
 //Need to put results on the page:
@@ -620,9 +623,62 @@ function eventListenerWrapper(results, child, key) {
       .catch((error) => {
         console.log("Search Step 1: " + error);
       });
+    document.getElementById("search-input-artist").focus();
   });
 }
 
+//Navigate search results with keyboard:
+
+let listNavNumber = undefined;
+
+document.addEventListener("keydown", function (event) {
+  let searchResultsArray =
+    document.getElementById("search-results-ul").children;
+  if (searchResultsArray == undefined) {
+    //do nothing, the results aren't there
+  } else {
+    switch (event.key) {
+      case "ArrowUp":
+        if (listNavNumber == undefined || listNavNumber == 0) {
+          listNavNumber = searchResultsArray.length - 1;
+          markElementSelected(searchResultsArray, listNavNumber);
+        } else {
+          listNavNumber = listNavNumber - 1;
+          markElementSelected(searchResultsArray, listNavNumber);
+        }
+        break;
+      case "ArrowDown":
+        if (
+          listNavNumber == undefined ||
+          listNavNumber == searchResultsArray.length - 1
+        ) {
+          listNavNumber = 0;
+          markElementSelected(searchResultsArray, listNavNumber);
+        } else {
+          listNavNumber = listNavNumber + 1;
+          markElementSelected(searchResultsArray, listNavNumber);
+        }
+        break;
+      case "Enter":
+        if (listNavNumber == undefined) {
+          //do nothing
+        } else {
+          searchResultsArray[listNavNumber].click();
+        }
+        break;
+    }
+  }
+});
+function markElementSelected(sRA, lNN) {
+  for (i = 0; i < sRA.length; i++) {
+    sRA[i].selected = false;
+    sRA[i].style.cursor = "auto";
+    sRA[i].style.background = "transparent";
+  }
+  sRA[lNN].selected = true;
+  sRA[lNN].style.cursor = "pointer";
+  sRA[lNN].style.background = "rgb(28, 28, 28)";
+}
 //function for reseting the search results
 
 function resetSearchResults() {
@@ -630,6 +686,7 @@ function resetSearchResults() {
   while (parentListItem.firstChild) {
     parentListItem.removeChild(parentListItem.firstChild);
   }
+  listNavNumber = undefined;
 }
 
 //COMPARISON CODE
