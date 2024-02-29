@@ -624,12 +624,11 @@ function eventListenerWrapper(results, child, key) {
             );
           })
           .catch((error) => {
-            console.log("Search Step 2");
-            console.log(error);
+            errorMessages(error);
           });
       })
       .catch((error) => {
-        console.log("Search Step 1: " + error);
+        errorMessages(error);
       });
     document.getElementById("search-input-artist").focus();
   });
@@ -1076,8 +1075,11 @@ function gameOver() {
   document.getElementById("strike-image-3").style.display = "none";
   document.getElementById("game-over-text").style.visibility = "visible";
   resetSearchResults();
+  focusHistoryTabMobile();
 }
-
+function focusHistoryTabMobile() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
 //Main game start function via button game start:
 
 document

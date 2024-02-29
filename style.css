@@ -232,11 +232,12 @@ margin-left: -32px;
   justify-content: start;
   align-items: start;
   width: 80%;
-  height: 60%;
+  height: 400px;
   overflow:auto;
   overflow-x: hidden;
   background-color: rgb(28, 28, 28);
   box-shadow: 5px 5px 20px -2px black;
+  margin-bottom: 30px;
 }
 .past-connection-title {
   overflow: hidden;
