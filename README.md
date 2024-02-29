@@ -21,7 +21,7 @@ After the given 30 seconds runs out on a connection, the game ends, and a score 
 - Auto-reset on new game start: All past connections, streaks, and strikes are automatically reset on the start of the game.
 - Rotating album pool: At the start of the game, a user is given one of two albums as their starting point. These albums change based on the day of the week, and the day of the month.
 
-##Known Issues & Bugs
+## Known Issues & Bugs
 
 To preface, if you’ve encountered an issue or bug that’s not listed below, feel free to message me about it! I plan to continue work on this project until noted otherwise.
 
