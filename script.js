@@ -193,18 +193,18 @@ albumPools = [
     ],
     [
       {
-        submittedBy: "Nick",
-        album: "Tree Of Tongues",
-        url: "https://api.discogs.com/masters/3970280",
+        submittedBy: "Liam",
+        album: "Whole Lotta Red",
+        url: "https://api.discogs.com/masters/2057692",
         albumCover:
-          "https://i.discogs.com/JBGv5PVE-_IK5c_0eNhqe3Qa9bKUTB49MtbNTL2asNg/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NzAy/ODAtMTM1MDkzNDUy/Mi0zMDE1LmpwZWc.jpeg",
+          "https://i.discogs.com/R__ClQV_qnaV0ITzx0pwkzZfcdbC5F4E5MyTUNaf7TU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NjE4/MzE3LTE2MTAyODEy/NzUtODcyMy5qcGVn.jpeg",
       },
       {
-        submittedBy: "Nick",
-        album: "Tiger And The Duke",
-        url: "https://api.discogs.com/masters/196585",
+        submittedBy: "Liam",
+        album: "Kind of Blue",
+        url: "https://api.discogs.com/masters/5460",
         albumCover:
-          "https://i.discogs.com/5qU9CrBC6PdGHReHzG4p4eYcFO3wOMqd95a-alSDYRU/rs:fit/g:sm/q:90/h:530/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNTkx/MzktMTU1NDMxMTkx/Mi0zOTU0LmpwZWc.jpeg",
+          "https://i.discogs.com/wjjMk1xCKdaPbsUbaXWzHBNi3K-fmt3CYkQGqt0c_Z8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyNzYx/ODMtMTY3NzAwMzM5/Ni0yMDQ1LmpwZWc.jpeg",
       },
     ],
   ]),
@@ -283,7 +283,7 @@ function randomAlbumPool() {
   return poolUsed[pairUsed];
 }
 
-//I should make the album pool bigger, but before I do that I should get the app working from one of these two points
+//Determine which album from the current pool will be used:
 
 function getRandomStartPointer(albumPair) {
   let pointer = Math.round(Math.random() * (1 - 0) + 0);
@@ -297,6 +297,8 @@ function getRandomStartPointer(albumPair) {
     return album;
   }
 }
+
+//Navigate from the search to the "main release":
 
 function getMainRelease(results) {
   let target = results.main_release_url;
@@ -355,6 +357,8 @@ function displayCurrentAlbum() {
   }
 }
 
+//Renames extraartists to Collaborators when displayed on the page:
+
 function fixExtraArtists(type) {
   if (type == "extraartists") {
     return "Collaborator";
@@ -406,6 +410,9 @@ function indexerFilter(currentItem) {
   }
   return filteredResults;
 }
+
+//check how many albums have been used:
+
 function getAlbumCount() {
   if (albumsGlobal.length < 1) {
     return 0;
@@ -413,9 +420,8 @@ function getAlbumCount() {
     return albumsGlobal.length;
   }
 }
-//tracklistartists is getting its own section because A) It's very complicated, B) it's a lot of code:
 
-//The main functionion:
+//Get more information for extraartists by extracting info from the tracklist property of returned results:
 
 function getTracklistArtists(results) {
   let trackList = results.tracklist;
@@ -567,7 +573,7 @@ function searchAlbumAndArtist() {
   listNavNumber = undefined;
 }
 
-//Need to put results on the page:
+//Display search results on the page:
 
 function displaySearchResults(results) {
   let parent = document.getElementById("search-results-ul");
@@ -592,6 +598,8 @@ function displaySearchResults(results) {
   }
 }
 
+//This prevents scope issues when adding an event listener to a function in "displaySearchResults()":
+
 function eventListenerWrapper(results, child, key) {
   child.addEventListener("click", function () {
     let coverArt = results.results[key].thumb;
@@ -608,7 +616,7 @@ function eventListenerWrapper(results, child, key) {
           .then((results) => {
             let tempAlbum = getFilteredAlbum(results);
             console.log(results);
-            // console.log(tempAlbum);
+            // console.log(tempAlbum); --to check the info of an album after its been filtered/before its been compared
             checkForMatches(
               albumsGlobal[albumsGlobal.length - 1],
               tempAlbum,
@@ -634,7 +642,7 @@ let listNavNumber = undefined;
 document.addEventListener("keydown", function (event) {
   let searchResultsArray =
     document.getElementById("search-results-ul").children;
-  if (searchResultsArray == undefined) {
+  if (searchResultsArray.length <= 0) {
     //do nothing, the results aren't there
   } else {
     switch (event.key) {
@@ -669,6 +677,9 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+
+//applies same styles as hover psuedo class to elements when selected with arrow keys
+
 function markElementSelected(sRA, lNN) {
   for (i = 0; i < sRA.length; i++) {
     sRA[i].selected = false;
@@ -678,7 +689,22 @@ function markElementSelected(sRA, lNN) {
   sRA[lNN].selected = true;
   sRA[lNN].style.cursor = "pointer";
   sRA[lNN].style.background = "rgb(28, 28, 28)";
+  scrollWithSelectedElement(sRA[lNN]);
 }
+
+//refocuses elements outside of visbility in the results box when navigated to with arrows
+
+function scrollWithSelectedElement(element) {
+  parentElement = document.getElementById("search-results-ul");
+  parentRect = parentElement.getBoundingClientRect();
+  childRect = element.getBoundingClientRect();
+  if (childRect.top < parentRect.top) {
+    parentElement.scrollTop -= parentRect.top - childRect.top;
+  } else if (childRect.bottom > parentRect.bottom) {
+    parentElement.scrollTop += childRect.bottom - parentRect.bottom;
+  }
+}
+
 //function for reseting the search results
 
 function resetSearchResults() {
@@ -732,6 +758,8 @@ function checkForMatches(currentGlobalAlbum, selectedSearchedAlbum, coverArt) {
     displayCurrentAlbum(selectedSearchedAlbum);
   }
 }
+
+///function for alerting a user the match they are attempting has already been used:
 
 function failedMatchInUseAlert() {
   let errorElement = document.getElementById("error-message");
@@ -855,9 +883,8 @@ function MatchedItems(artists, extraartists, labels, styles, year) {
     (this.year = year);
 }
 
-//Make a function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
-//need to include the check to see if a match is used more than three times here:
-//this is the ugly one this time:
+//function that establishes a hierarchy of matches and returns the first match according to where it ranks in said hierarchy
+//it also checks if the match has been used 3 times already, and resets the timer once a match is used:
 
 function getMatchUsed(
   matchedItemsObject,
@@ -912,6 +939,8 @@ function getMatchUsed(
   }
 }
 
+//function for alerting a user that their match has failed based on using the same connection too many times:
+
 function failedMatchTooManyAlert(match) {
   let errorElement = document.getElementById("error-message");
   let connectionInfoElement = document.getElementById("last-connection");
@@ -928,6 +957,9 @@ function failedMatchTooManyAlert(match) {
     errorElement.innerHTML = "";
   }, 3000);
 }
+
+//Function for alerting a user that their match has failed because no connections were found:
+
 function failedMatchNoMatchesAlert() {
   let errorElement = document.getElementById("error-message");
   let connectionInfoElement = document.getElementById("last-connection");
@@ -947,6 +979,7 @@ function failedMatchNoMatchesAlert() {
 function MatchUsed(type, data) {
   (this.type = type), (this.data = data);
 }
+
 //Check to see if a connection has been used already, and how many times it's been used. If used less than 3 times, return true, else return false:
 
 function isMatchBlocked(currentMatches, attemptedMatch) {
@@ -1041,6 +1074,7 @@ function gameOver() {
   document.getElementById("strike-image-1").style.display = "none";
   document.getElementById("strike-image-2").style.display = "none";
   document.getElementById("strike-image-3").style.display = "none";
+  document.getElementById("game-over-text").style.visibility = "visible";
   resetSearchResults();
 }
 
@@ -1065,13 +1099,14 @@ document
         document.getElementById("wrapper-hide-on-start").style.display = "flex";
         document.getElementById("button-game-start").style.display = "none";
         document.getElementById("score-display").innerHTML = 0;
+        document.getElementById("game-over-text").style.visibility = "hidden";
       })
       .catch((error) => {
         console.log(error);
       });
   });
 
-//Past connections function
+//Function for displaying past connections/matches in the history tab:
 
 function displayPastConnections() {
   let parent = document.getElementById("history-display");
@@ -1093,6 +1128,8 @@ function displayPastConnections() {
   parent.appendChild(newEntry);
 }
 
+//Function for getting information on the type of connection used between two past albums
+
 function connectionType() {
   returnedString = "";
   switch (infoGlobal.matches[infoGlobal.connectionsMade].type) {
@@ -1109,7 +1146,8 @@ function connectionType() {
   }
   return returnedString;
 }
-//clear past connections on gamer start:
+
+//clear past connections on game start:
 
 function clearPastConnections() {
   let pastConnections = document.getElementById("history-display");
@@ -1119,3 +1157,9 @@ function clearPastConnections() {
     }
   }
 }
+
+//add a link to the repo for the project:
+
+document.getElementById("github-icon").addEventListener("click", function () {
+  window.open("https://github.com/JWH709/Groove-Jumper", "_blank");
+});
