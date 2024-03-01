@@ -2,6 +2,8 @@
 
 A music trivia game by John Heneghan
 
+[Play Here!](https://jwh709.github.io/Groove-Jumper/)
+
 ## How to Play
 
 The user is given an album and 30 seconds to find a connection between that album and another.  
