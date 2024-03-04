@@ -22,10 +22,14 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 }
 #github-icon {
-  height: 62px;
-  width: 62px;
+  width: 64px;
+  height: 64px;
+  max-width: 15%;
+  max-height: 15%;
+  object-fit: contain;
 }
 #github-icon:hover {
   cursor: pointer;
@@ -266,6 +270,9 @@ margin-left: -32px;
   #right-tab, #left-tab {
     width: auto;
     height: auto;
+  }
+  #right-tab {
+    margin-top: 50px;
   }
   #button-game-start {
     margin-top: 50px;
