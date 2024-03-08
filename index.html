@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div id="main-page" class="row">
+    <div id="main-page" class="">
       <div id="left-tab" class="col text-center">
         <h2>How To Play</h2>
         <p class="explanation">
@@ -60,82 +60,90 @@
           <i>Songs for the Deaf</i>.
         </p>
       </div>
-      <div id="center-tab" class="col text-center">
+      <div id="center-tab">
         <button id="button-game-start">Start</button>
         <div id="wrapper-hide-on-start">
-          <div id="record-container">
-            <div class="other-albums"></div>
-            <div id="last-connection-container">
-              <h4 id="last-connection-album-title"></h4>
-              <img src="" alt="Current Album" id="album-cover" />
-              <h5 id="last-connection-artist"></h5>
+          <div id="one-two-container">
+            <div id="four-one">
+              <h4>Search For an Album</h4>
+              <div id="search-bar-wrapper">
+                <input
+                  type="text"
+                  id="search-input-artist"
+                  class="search-bars"
+                  placeholder="Artist"
+                  autocomplete="off"
+                />
+                <input
+                  type="text"
+                  id="search-input-album"
+                  class="search-bars"
+                  placeholder="Album"
+                  autocomplete="off"
+                />
+                <button id="search-button"><img src="./images/search.png" alt="a magnifying glass" id="search-image"></button>
+              </div>
+              <div id="search-result-box">
+                <ul id="search-results-ul" class="overflow-auto"></ul>
+              </div>
+          </div>
+          <div id="four-two">
+            <div id="record-container">
+              <div class="other-albums"></div>
+              <div id="last-connection-container">
+                <h4 id="last-connection-album-title"></h4>
+                <img src="" alt="Current Album" id="album-cover" />
+                <h5 id="last-connection-artist"></h5>
+              </div>
+              <div class="other-albums"></div>
             </div>
-            <div class="other-albums"></div>
-          </div>
-          <div id="strike-system-container">
-            <div id="strikes-wrapper">
-              <img
-                src="./images/delete.png"
-                alt=""
-                id="strike-image-1"
-                class="strike-image"
-              />
-              <img
-                src="./images/delete.png"
-                alt=""
-                id="strike-image-2"
-                class="strike-image"
-              />
-              <img
-                src="./images/delete.png"
-                alt=""
-                id="strike-image-3"
-                class="strike-image"
-              />
+            <div id="strike-system-container">
+              <div id="strikes-wrapper">
+                <img
+                  src="./images/delete.png"
+                  alt=""
+                  id="strike-image-1"
+                  class="strike-image"
+                />
+                <img
+                  src="./images/delete.png"
+                  alt=""
+                  id="strike-image-2"
+                  class="strike-image"
+                />
+                <img
+                  src="./images/delete.png"
+                  alt=""
+                  id="strike-image-3"
+                  class="strike-image"
+                />
+              </div>
+           </div>
+            <div id="connection-box">
+              <h6><b>Last Connection:</b></h6>
+              <h6 id="last-connection"></h6>
+              <h5 id="error-message">Sup</h4>
             </div>
           </div>
-          <div id="connection-box">
-            <h6><b>Last Connection:</b></h6>
-            <h6 id="last-connection"></h6>
-            <h5 id="error-message">Sup</h4>
           </div>
-          <div id="timer-container">
-            <h4 id="timer">30</h4>
-          </div>
-          <div id="search-bar-container">
-            <div id="search-bar-wrapper">
-              <input
-                type="text"
-                id="search-input-artist"
-                class="search-bars"
-                placeholder="Artist"
-                autocomplete="off"
-              />
-              <input
-                type="text"
-                id="search-input-album"
-                class="search-bars"
-                placeholder="Album"
-                autocomplete="off"
-              />
-              <button id="search-button"><img src="./images/search.png" alt="a magnifying glass" id="search-image"></button>
+          <div id="three-four-container">
+            <div id="four-three">
+              <div id="history-display"></div>
             </div>
-            <div id="search-result-box">
-              <ul id="search-results-ul" class="overflow-auto"></ul>
+            <div id="four-four">
+              <h1 id="game-over-text">Game Over!</h1>
+              <div id="score-display-box">
+                <h2>Time Left:</h2>
+                <h2 id="timer">30</h2>
+                <h2>Streak:</h2>
+                <h2 id="score-display">0</h2>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="right-tab" class="col text-center">
-        <h1 id="game-over-text">Game Over!</h1>
-        <div id="score-display-box">
-          <h2>Streak:</h2>
-          <h2 id="score-display">0</h2>
         </div>
-        <div id="history-display"></div>
       </div>
-    </div>
-    <div id="bottom-row">
+      <div id="bottom-row">
         <img src="./images/github.png" alt="The GitHub logo" id="github-icon"></div>
     <script src="./script.js"></script>
   </body>
